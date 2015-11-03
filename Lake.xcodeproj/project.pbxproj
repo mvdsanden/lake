@@ -17,6 +17,9 @@
 		C16D252A1BE84DDB00F20848 /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25281BE84DDB00F20848 /* Parser.cpp */; };
 		C16D252D1BE8544B00F20848 /* ConstDefAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D252B1BE8544B00F20848 /* ConstDefAST.cpp */; };
 		C16D25301BE85CC300F20848 /* ASTPrintVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D252E1BE85CC300F20848 /* ASTPrintVisitor.cpp */; };
+		C16D25331BE903EF00F20848 /* ExpressionAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25311BE903EF00F20848 /* ExpressionAST.cpp */; };
+		C16D25361BE90D6E00F20848 /* FunctionBlockAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25341BE90D6E00F20848 /* FunctionBlockAST.cpp */; };
+		C16D25391BE9144E00F20848 /* FunctionDefAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25371BE9144E00F20848 /* FunctionDefAST.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -52,6 +55,12 @@
 		C16D252C1BE8544B00F20848 /* ConstDefAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ConstDefAST.hpp; path = ast/ConstDefAST.hpp; sourceTree = "<group>"; };
 		C16D252E1BE85CC300F20848 /* ASTPrintVisitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ASTPrintVisitor.cpp; path = ast/ASTPrintVisitor.cpp; sourceTree = "<group>"; };
 		C16D252F1BE85CC300F20848 /* ASTPrintVisitor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ASTPrintVisitor.hpp; path = ast/ASTPrintVisitor.hpp; sourceTree = "<group>"; };
+		C16D25311BE903EF00F20848 /* ExpressionAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExpressionAST.cpp; path = ast/ExpressionAST.cpp; sourceTree = "<group>"; };
+		C16D25321BE903EF00F20848 /* ExpressionAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ExpressionAST.hpp; path = ast/ExpressionAST.hpp; sourceTree = "<group>"; };
+		C16D25341BE90D6E00F20848 /* FunctionBlockAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionBlockAST.cpp; path = ast/FunctionBlockAST.cpp; sourceTree = "<group>"; };
+		C16D25351BE90D6E00F20848 /* FunctionBlockAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FunctionBlockAST.hpp; path = ast/FunctionBlockAST.hpp; sourceTree = "<group>"; };
+		C16D25371BE9144E00F20848 /* FunctionDefAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionDefAST.cpp; path = ast/FunctionDefAST.cpp; sourceTree = "<group>"; };
+		C16D25381BE9144E00F20848 /* FunctionDefAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FunctionDefAST.hpp; path = ast/FunctionDefAST.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +128,12 @@
 				C16D252C1BE8544B00F20848 /* ConstDefAST.hpp */,
 				C16D252E1BE85CC300F20848 /* ASTPrintVisitor.cpp */,
 				C16D252F1BE85CC300F20848 /* ASTPrintVisitor.hpp */,
+				C16D25311BE903EF00F20848 /* ExpressionAST.cpp */,
+				C16D25321BE903EF00F20848 /* ExpressionAST.hpp */,
+				C16D25341BE90D6E00F20848 /* FunctionBlockAST.cpp */,
+				C16D25351BE90D6E00F20848 /* FunctionBlockAST.hpp */,
+				C16D25371BE9144E00F20848 /* FunctionDefAST.cpp */,
+				C16D25381BE9144E00F20848 /* FunctionDefAST.hpp */,
 			);
 			name = ast;
 			sourceTree = "<group>";
@@ -197,9 +212,12 @@
 			files = (
 				C16D252A1BE84DDB00F20848 /* Parser.cpp in Sources */,
 				C16D25301BE85CC300F20848 /* ASTPrintVisitor.cpp in Sources */,
+				C16D25391BE9144E00F20848 /* FunctionDefAST.cpp in Sources */,
 				C16D25201BE8281500F20848 /* ASTVisitor.cpp in Sources */,
+				C16D25331BE903EF00F20848 /* ExpressionAST.cpp in Sources */,
 				C16D25261BE82A6300F20848 /* IdentifierAST.cpp in Sources */,
 				C16D25191BE826EB00F20848 /* ConstAST.cpp in Sources */,
+				C16D25361BE90D6E00F20848 /* FunctionBlockAST.cpp in Sources */,
 				C16D25121BE808E200F20848 /* Lexer.cpp in Sources */,
 				C16D25231BE8297900F20848 /* FunctionPrototypeAST.cpp in Sources */,
 				C16D25161BE8264600F20848 /* BaseAST.cpp in Sources */,

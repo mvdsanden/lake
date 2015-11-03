@@ -28,15 +28,13 @@ namespace lake {
     : public ConstAST
     {
     public:
-     
+
+        LAKE_VISITOR_ACCEPT(ASTVisitor);
+        
+        
         ConstValueAST(T const &value)
         : d_value(value)
         {
-        }
-        
-        virtual void accept(ASTVisitor *visitor)
-        {
-            visitor->visit(this);
         }
         
         static std::shared_ptr<ConstValueAST<T>> get(T const &value)

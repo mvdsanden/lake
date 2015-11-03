@@ -20,11 +20,8 @@ namespace lake {
     {
     public:
         
-        virtual void accept(ASTVisitor *visitor)
-        {
-            visitor->visit(this);
-        }
-        
+        LAKE_VISITOR_ACCEPT(ASTVisitor);
+                
         IdentifierAST(std::string const &name);
         
         virtual ~IdentifierAST();

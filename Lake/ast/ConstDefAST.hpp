@@ -19,10 +19,7 @@ namespace lake {
     {
     public:
 
-        virtual void accept(ASTVisitor *visitor)
-        {
-            visitor->visit(this);
-        }
+        LAKE_VISITOR_ACCEPT(ASTVisitor);
         
         ConstDefAST(std::unique_ptr<IdentifierAST>  &&name,
                     std::unique_ptr<ConstAST> &&value);

@@ -22,27 +22,24 @@ namespace lake {
     class FunctionPrototypeAST
     : public BaseAST
     {
-        public:
+    public:
         
-        virtual void accept(ASTVisitor *visitor)
-        {
-            visitor->visit(this);
-        }
-        
-        FunctionPrototypeAST(std::shared_ptr<IdentifierAST> const &name,
-                             std::vector<std::shared_ptr<IdentifierAST>> &&args);
+        LAKE_VISITOR_ACCEPT(ASTVisitor);
+                
+        FunctionPrototypeAST(std::unique_ptr<IdentifierAST> &&name,
+                             std::vector<std::unique_ptr<IdentifierAST>> &&args);
         
         virtual ~FunctionPrototypeAST();
         
-        std::shared_ptr<IdentifierAST> const &name() const;
+        std::unique_ptr<IdentifierAST> const &name() const;
         
-        std::vector<std::shared_ptr<IdentifierAST>> const &args() const;
+        std::vector<std::unique_ptr<IdentifierAST>> const &args() const;
         
     private:
         
-        std::shared_ptr<IdentifierAST> d_name;
+        std::unique_ptr<IdentifierAST> d_name;
         
-        std::vector<std::shared_ptr<IdentifierAST>> d_args;
+        std::vector<std::unique_ptr<IdentifierAST>> d_args;
         
     };
     

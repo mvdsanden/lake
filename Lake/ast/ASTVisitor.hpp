@@ -11,12 +11,20 @@
 
 #include <string>
 
+#define LAKE_VISITOR_ACCEPT(V) virtual void accept(V *visitor) { visitor->visit(this); }
+
 namespace lake {
     
     template <class T> class ConstValueAST;
+    template <class T> class ConstExpressionAST;
     class IdentifierAST;
     class FunctionPrototypeAST;
     class ConstDefAST;
+    class BinOpExpressionAST;
+    class VarExpressionAST;
+    class CallExpressionAST;
+    class FunctionDefAST;
+    class FunctionBlockAST;
     
     class ASTVisitor
     {
@@ -33,6 +41,22 @@ namespace lake {
         virtual void visit(IdentifierAST const *node) = 0;
         
         virtual void visit(ConstDefAST const *node) = 0;
+        
+        virtual void visit(BinOpExpressionAST const *node) = 0;
+        
+        virtual void visit(ConstExpressionAST<double> const *node) = 0;
+        
+        virtual void visit(ConstExpressionAST<std::string> const *node) = 0;
+        
+        virtual void visit(ConstExpressionAST<int> const *node) = 0;
+
+        virtual void visit(VarExpressionAST const *node) = 0;
+        
+        virtual void visit(CallExpressionAST const *node) = 0;
+        
+        virtual void visit(FunctionDefAST const *node) = 0;
+        
+        virtual void visit(FunctionBlockAST const *node) = 0;
         
     };
     

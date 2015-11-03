@@ -41,6 +41,8 @@ int main(int argc, const char * argv[]) {
             
         ast->accept(visitor.get());
 
+        std::cout.flush();
+        
     }
     
     return 0;

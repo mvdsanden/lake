@@ -12,6 +12,10 @@
 #include "ConstDefAST.hpp"
 #include "IdentifierAST.hpp"
 #include "FunctionPrototypeAST.hpp"
+#include "ConstDefAST.hpp"
+#include "ExpressionAST.hpp"
+#include "FunctionBlockAST.hpp"
+#include "FunctionDefAST.hpp"
 
 #include <iostream>
 
@@ -84,11 +88,80 @@ namespace lake {
         
         virtual void visit(ConstDefAST const *node)
         {
-            d_stream << "(CONSTANT (";
+            d_stream << "(";
             node->name()->accept(this);
-            d_stream << ") (";
+            d_stream << ")";
             node->value()->accept(this);
-            d_stream << "))\n";
+        }
+        
+        virtual void visit(BinOpExpressionAST const *node)
+        {
+            if (isprint(node->op())) {
+                d_stream << "(" << static_cast<char>(node->op()) << " (";
+            } else {
+                d_stream << "(" << node->op() << " (";
+            }
+            node->lhs()->accept(this);
+            d_stream << ") (";
+            node->rhs()->accept(this);
+            d_stream << "))";
+        }
+        
+        virtual void visit(ConstExpressionAST<double> const *node)
+        {
+            d_stream << "(double)" << node->value();
+        }
+        
+        virtual void visit(ConstExpressionAST<std::string> const *node)
+        {
+            d_stream << "(string)" << node->value();
+        }
+        
+        virtual void visit(ConstExpressionAST<int> const *node)
+        {
+            d_stream << "(int)" << node->value();
+        }
+        
+        virtual void visit(VarExpressionAST const *node)
+        {
+            d_stream << "(VAR (";
+            node->name()->accept(this);
+            d_stream << "))";
+        }
+        
+        virtual void visit(CallExpressionAST const *node)
+        {
+            d_stream << "(CALL (";
+            node->name()->accept(this);
+            d_stream << ")";
+            
+            for (auto i = node->args().begin(); i != node->args().end(); ++i) {
+                d_stream << " (";
+                (*i)->accept(this);
+                d_stream << ")";
+            }
+            
+            d_stream << ")";
+        }
+        
+        virtual void visit(FunctionDefAST const *node)
+        {
+            d_stream << "(DEF (";
+            node->prototype()->accept(this);
+            d_stream << ") (";
+            node->block()->accept(this);
+            d_stream << ")\n";
+        }
+        
+        virtual void visit(FunctionBlockAST const *node)
+        {
+            d_stream << "(BLOCK";
+            for (auto i = node->expressions().begin(); i != node->expressions().end(); ++i) {
+                d_stream << " (";
+                (*i)->accept(this);
+                d_stream << ")";
+            }
+            d_stream << ")\n";
         }
         
     };
