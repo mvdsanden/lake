@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		C16D25091BE8089500F20848 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25081BE8089500F20848 /* main.cpp */; };
+		C16D25121BE808E200F20848 /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25101BE808E200F20848 /* Lexer.cpp */; };
+		C16D25161BE8264600F20848 /* BaseAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25141BE8264600F20848 /* BaseAST.cpp */; };
+		C16D25191BE826EB00F20848 /* ConstAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25171BE826EB00F20848 /* ConstAST.cpp */; };
+		C16D25201BE8281500F20848 /* ASTVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D251E1BE8281500F20848 /* ASTVisitor.cpp */; };
+		C16D25231BE8297900F20848 /* FunctionPrototypeAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25211BE8297900F20848 /* FunctionPrototypeAST.cpp */; };
+		C16D25261BE82A6300F20848 /* IdentifierAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25241BE82A6300F20848 /* IdentifierAST.cpp */; };
+		C16D252A1BE84DDB00F20848 /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25281BE84DDB00F20848 /* Parser.cpp */; };
+		C16D252D1BE8544B00F20848 /* ConstDefAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D252B1BE8544B00F20848 /* ConstDefAST.cpp */; };
+		C16D25301BE85CC300F20848 /* ASTPrintVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D252E1BE85CC300F20848 /* ASTPrintVisitor.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +34,24 @@
 /* Begin PBXFileReference section */
 		C16D25051BE8089500F20848 /* Lake */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Lake; sourceTree = BUILT_PRODUCTS_DIR; };
 		C16D25081BE8089500F20848 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		C16D25101BE808E200F20848 /* Lexer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Lexer.cpp; path = lexer/Lexer.cpp; sourceTree = "<group>"; };
+		C16D25111BE808E200F20848 /* Lexer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Lexer.hpp; path = lexer/Lexer.hpp; sourceTree = "<group>"; };
+		C16D25141BE8264600F20848 /* BaseAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BaseAST.cpp; path = ast/BaseAST.cpp; sourceTree = "<group>"; };
+		C16D25151BE8264600F20848 /* BaseAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BaseAST.hpp; path = ast/BaseAST.hpp; sourceTree = "<group>"; };
+		C16D25171BE826EB00F20848 /* ConstAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstAST.cpp; path = ast/ConstAST.cpp; sourceTree = "<group>"; };
+		C16D25181BE826EB00F20848 /* ConstAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ConstAST.hpp; path = ast/ConstAST.hpp; sourceTree = "<group>"; };
+		C16D251E1BE8281500F20848 /* ASTVisitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ASTVisitor.cpp; path = ast/ASTVisitor.cpp; sourceTree = "<group>"; };
+		C16D251F1BE8281500F20848 /* ASTVisitor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ASTVisitor.hpp; path = ast/ASTVisitor.hpp; sourceTree = "<group>"; };
+		C16D25211BE8297900F20848 /* FunctionPrototypeAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionPrototypeAST.cpp; path = ast/FunctionPrototypeAST.cpp; sourceTree = "<group>"; };
+		C16D25221BE8297900F20848 /* FunctionPrototypeAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FunctionPrototypeAST.hpp; path = ast/FunctionPrototypeAST.hpp; sourceTree = "<group>"; };
+		C16D25241BE82A6300F20848 /* IdentifierAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IdentifierAST.cpp; path = ast/IdentifierAST.cpp; sourceTree = "<group>"; };
+		C16D25251BE82A6300F20848 /* IdentifierAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IdentifierAST.hpp; path = ast/IdentifierAST.hpp; sourceTree = "<group>"; };
+		C16D25281BE84DDB00F20848 /* Parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Parser.cpp; path = parser/Parser.cpp; sourceTree = "<group>"; };
+		C16D25291BE84DDB00F20848 /* Parser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Parser.hpp; path = parser/Parser.hpp; sourceTree = "<group>"; };
+		C16D252B1BE8544B00F20848 /* ConstDefAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstDefAST.cpp; path = ast/ConstDefAST.cpp; sourceTree = "<group>"; };
+		C16D252C1BE8544B00F20848 /* ConstDefAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ConstDefAST.hpp; path = ast/ConstDefAST.hpp; sourceTree = "<group>"; };
+		C16D252E1BE85CC300F20848 /* ASTPrintVisitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ASTPrintVisitor.cpp; path = ast/ASTPrintVisitor.cpp; sourceTree = "<group>"; };
+		C16D252F1BE85CC300F20848 /* ASTPrintVisitor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ASTPrintVisitor.hpp; path = ast/ASTPrintVisitor.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,9 +84,59 @@
 		C16D25071BE8089500F20848 /* Lake */ = {
 			isa = PBXGroup;
 			children = (
+				C16D251A1BE827CC00F20848 /* util */,
+				C16D25131BE8262800F20848 /* ast */,
+				C16D250F1BE808B900F20848 /* lexer */,
+				C16D25271BE84DC000F20848 /* parser */,
 				C16D25081BE8089500F20848 /* main.cpp */,
 			);
 			path = Lake;
+			sourceTree = "<group>";
+		};
+		C16D250F1BE808B900F20848 /* lexer */ = {
+			isa = PBXGroup;
+			children = (
+				C16D25101BE808E200F20848 /* Lexer.cpp */,
+				C16D25111BE808E200F20848 /* Lexer.hpp */,
+			);
+			name = lexer;
+			sourceTree = "<group>";
+		};
+		C16D25131BE8262800F20848 /* ast */ = {
+			isa = PBXGroup;
+			children = (
+				C16D25141BE8264600F20848 /* BaseAST.cpp */,
+				C16D25151BE8264600F20848 /* BaseAST.hpp */,
+				C16D25171BE826EB00F20848 /* ConstAST.cpp */,
+				C16D25181BE826EB00F20848 /* ConstAST.hpp */,
+				C16D251E1BE8281500F20848 /* ASTVisitor.cpp */,
+				C16D251F1BE8281500F20848 /* ASTVisitor.hpp */,
+				C16D25211BE8297900F20848 /* FunctionPrototypeAST.cpp */,
+				C16D25221BE8297900F20848 /* FunctionPrototypeAST.hpp */,
+				C16D25241BE82A6300F20848 /* IdentifierAST.cpp */,
+				C16D25251BE82A6300F20848 /* IdentifierAST.hpp */,
+				C16D252B1BE8544B00F20848 /* ConstDefAST.cpp */,
+				C16D252C1BE8544B00F20848 /* ConstDefAST.hpp */,
+				C16D252E1BE85CC300F20848 /* ASTPrintVisitor.cpp */,
+				C16D252F1BE85CC300F20848 /* ASTPrintVisitor.hpp */,
+			);
+			name = ast;
+			sourceTree = "<group>";
+		};
+		C16D251A1BE827CC00F20848 /* util */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = util;
+			sourceTree = "<group>";
+		};
+		C16D25271BE84DC000F20848 /* parser */ = {
+			isa = PBXGroup;
+			children = (
+				C16D25281BE84DDB00F20848 /* Parser.cpp */,
+				C16D25291BE84DDB00F20848 /* Parser.hpp */,
+			);
+			name = parser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,7 +195,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C16D252A1BE84DDB00F20848 /* Parser.cpp in Sources */,
+				C16D25301BE85CC300F20848 /* ASTPrintVisitor.cpp in Sources */,
+				C16D25201BE8281500F20848 /* ASTVisitor.cpp in Sources */,
+				C16D25261BE82A6300F20848 /* IdentifierAST.cpp in Sources */,
+				C16D25191BE826EB00F20848 /* ConstAST.cpp in Sources */,
+				C16D25121BE808E200F20848 /* Lexer.cpp in Sources */,
+				C16D25231BE8297900F20848 /* FunctionPrototypeAST.cpp in Sources */,
+				C16D25161BE8264600F20848 /* BaseAST.cpp in Sources */,
 				C16D25091BE8089500F20848 /* main.cpp in Sources */,
+				C16D252D1BE8544B00F20848 /* ConstDefAST.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
