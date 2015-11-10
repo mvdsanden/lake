@@ -35,67 +35,69 @@ namespace lake {
     {
     public:
         
-        virtual void visit(ConstValueAST<double> const *node) {};
+        virtual void visitNotHandled(BaseAST const *node, std::string const &type);
         
-        virtual void visit(ConstValueAST<std::string> const *node) {};
+        virtual void visit(ConstValueAST<double> const *node);
         
-        virtual void visit(ConstValueAST<int8_t> const *node) {};
+        virtual void visit(ConstValueAST<std::string> const *node);
         
-        virtual void visit(ConstValueAST<int64_t> const *node) {};
+        virtual void visit(ConstValueAST<int8_t> const *node);
         
-        virtual void visit(ConstValueAST<uint64_t> const *node) {};
+        virtual void visit(ConstValueAST<int64_t> const *node);
         
-        virtual void visit(FunctionPrototypeAST const *node) {};
+        virtual void visit(ConstValueAST<uint64_t> const *node);
         
-        virtual void visit(IdentifierAST const *node) {};
+        virtual void visit(FunctionPrototypeAST const *node);
         
-        virtual void visit(ConstDefAST const *node) {};
+        virtual void visit(IdentifierAST const *node);
         
-        virtual void visit(BinOpExpressionAST const *node) {};
+        virtual void visit(ConstDefAST const *node);
         
-        virtual void visit(ConstExpressionAST<int8_t> const *node) {};
+        virtual void visit(BinOpExpressionAST const *node);
         
-        virtual void visit(ConstExpressionAST<int64_t> const *node) {};
+        virtual void visit(ConstExpressionAST<int8_t> const *node);
         
-        virtual void visit(ConstExpressionAST<uint64_t> const *node) {};
+        virtual void visit(ConstExpressionAST<int64_t> const *node);
         
-        virtual void visit(ConstExpressionAST<double> const *node) {};
+        virtual void visit(ConstExpressionAST<uint64_t> const *node);
         
-        virtual void visit(ConstExpressionAST<std::string> const *node) {};
+        virtual void visit(ConstExpressionAST<double> const *node);
+        
+        virtual void visit(ConstExpressionAST<std::string> const *node);
 
-        virtual void visit(VarExpressionAST const *node) {};
+        virtual void visit(VarExpressionAST const *node);
         
-        virtual void visit(CallExpressionAST const *node) {};
+        virtual void visit(CallExpressionAST const *node);
         
-        virtual void visit(FunctionDefAST const *node) {};
+        virtual void visit(FunctionDefAST const *node);
         
-        virtual void visit(FunctionBlockAST const *node) {};
+        virtual void visit(FunctionBlockAST const *node);
         
-        virtual void visit(ReturnExpressionAST const *node) {};
+        virtual void visit(ReturnExpressionAST const *node);
         
-        virtual void visit(TypeAndNameAST const *node) {};
+        virtual void visit(TypeAndNameAST const *node);
         
-        virtual void visit(TypeInt8AST const *node) {};
+        virtual void visit(TypeInt8AST const *node);
         
-        virtual void visit(TypeInt16AST const *node) {};
+        virtual void visit(TypeInt16AST const *node);
         
-        virtual void visit(TypeInt32AST const *node) {};
+        virtual void visit(TypeInt32AST const *node);
         
-        virtual void visit(TypeInt64AST const *node) {};
+        virtual void visit(TypeInt64AST const *node);
 
-        virtual void visit(TypeUInt8AST const *node) {};
+        virtual void visit(TypeUInt8AST const *node);
         
-        virtual void visit(TypeUInt16AST const *node) {};
+        virtual void visit(TypeUInt16AST const *node);
         
-        virtual void visit(TypeUInt32AST const *node) {};
+        virtual void visit(TypeUInt32AST const *node);
         
-        virtual void visit(TypeUInt64AST const *node) {};
+        virtual void visit(TypeUInt64AST const *node);
         
-        virtual void visit(TypeFloatAST const *node) {};
+        virtual void visit(TypeFloatAST const *node);
         
-        virtual void visit(TypeDoubleAST const *node) {};
+        virtual void visit(TypeDoubleAST const *node);
 
-        virtual void visit(TypeStringAST const *node) {};
+        virtual void visit(TypeStringAST const *node);
         
     };
     

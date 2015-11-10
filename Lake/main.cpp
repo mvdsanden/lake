@@ -9,6 +9,9 @@
 #include "Lexer.hpp"
 #include "Parser.hpp"
 #include "ASTPrintVisitor.hpp"
+#include "CodeGenVisitor.hpp"
+
+#include "llvm/IR/LLVMContext.h"
 
 #include <iostream>
 
@@ -28,8 +31,10 @@ int main(int argc, const char * argv[]) {
         ll.next();
     }
      */
+    auto module = std::make_shared<llvm::Module>("my cool jit", llvm::getGlobalContext());
 
     auto logVisitor = lake::ASTPrintVisitor::create(std::cout);
+    auto codeGenVisitor = lake::CodeGenVisitor::create(module);
     
     while (true) {
         
@@ -42,10 +47,13 @@ int main(int argc, const char * argv[]) {
 
             
         ast->accept(logVisitor.get());
+        ast->accept(codeGenVisitor.get());
 
         std::cout.flush();
         
     }
+    
+    module->dump();
     
     return 0;
 }

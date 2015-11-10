@@ -266,6 +266,21 @@ namespace lake {
                 }
             }
             
+            void visit(ConstExpressionAST<int8_t> const *node)
+            {
+                d_value = llvm::ConstantInt::get(llvm::getGlobalContext(), llvm::APInt(8, node->value(), true));
+            }
+            
+            void visit(ConstExpressionAST<int64_t> const *node)
+            {
+                d_value = llvm::ConstantInt::get(llvm::getGlobalContext(), llvm::APInt(64, node->value(), true));
+            }
+
+            void visit(ConstExpressionAST<uint64_t> const *node)
+            {
+                d_value = llvm::ConstantInt::get(llvm::getGlobalContext(), llvm::APInt(64, node->value(), false));
+            }
+            
             void visit(ConstExpressionAST<double> const *node)
             {
                 d_value = llvm::ConstantFP::get(llvm::getGlobalContext(), llvm::APFloat(node->value()));
@@ -274,11 +289,6 @@ namespace lake {
             void visit(ConstExpressionAST<std::string> const *node)
             {
                 d_value = llvm::ConstantDataArray::getString(llvm::getGlobalContext(), node->value());
-            }
-            
-            void visit(ConstExpressionAST<int> const *node)
-            {
-                d_value = llvm::ConstantInt::get(llvm::getGlobalContext(), llvm::APInt(64, node->value(), true));
             }
             
             void visit(VarExpressionAST const *node)
@@ -310,6 +320,14 @@ namespace lake {
                 }
                 
                 d_value = d_builder.CreateCall(func, args, "calltmp");
+            }
+            
+            void visit(ReturnExpressionAST const *node)
+            {
+                ExpressionVisitor vis(d_scope, d_builder);
+                node->rhs()->accept(&vis);
+                
+                d_builder.CreateRet(vis.d_value);
             }
             
         };
@@ -390,7 +408,12 @@ namespace lake {
                 ExpressionVisitor vis(d_scope, d_builder);
                 node->accept(&vis);
             }
-
+            
+            void visit(ReturnExpressionAST const *node)
+            {
+                ExpressionVisitor vis(d_scope, d_builder);
+                node->accept(&vis);
+            }
             
         };
         
@@ -402,16 +425,42 @@ namespace lake {
             
             llvm::IRBuilder<> &d_builder;
             
+            std::shared_ptr<llvm::Module> &d_module;
+            
             llvm::Function *d_function;
             
         public:
             
-            FunctionVisitor(Scope &scope, llvm::IRBuilder<> &builder)
-            : d_scope(scope), d_builder(builder) {}
+            FunctionVisitor(Scope &scope,
+                            std::shared_ptr<llvm::Module> &module,
+                            llvm::IRBuilder<> &builder)
+            : d_scope(scope), d_module(module), d_builder(builder) {}
             
             void visit(FunctionPrototypeAST const *node)
             {
+                TypeVisitor typeVis;
+                node->typeAndName()->type()->accept(&typeVis);
                 
+                std::vector<llvm::Type*> types;
+                
+                for (auto &i : node->args()) {
+                    TypeVisitor vis;
+                    i->type()->accept(&vis);
+                }
+                
+                llvm::FunctionType *type = llvm::FunctionType::get(typeVis.type(), types, false);
+                
+                d_function = llvm::Function::Create(type,
+                                                    llvm::Function::ExternalLinkage,
+                                                    node->typeAndName()->name()->name(),
+                                                    d_module.get());
+                
+                size_t idx = 0;
+                for (auto &i : d_function->args()) {
+                    i.setName(node->args()[idx++]->name()->name());
+                }
+                
+                d_scope.insertNamedFunction(node->typeAndName()->name()->name(), d_function);
             }
             
             void visit(FunctionBlockAST const *node)
@@ -423,11 +472,16 @@ namespace lake {
                 }
             }
             
+            llvm::Function *function() const
+            {
+                return d_function;
+            }
+            
         };
         
         void visit(FunctionDefAST const *node)
         {
-            FunctionVisitor vis(d_scope, d_builder);
+            FunctionVisitor vis(d_scope, d_module, d_builder);
             node->prototype()->accept(&vis);
             node->block()->accept(&vis);
         }
@@ -435,7 +489,7 @@ namespace lake {
         
         void visit(ReturnExpressionAST const *node)
         {
-            
+            error(node, "return expression illegal outside of function block definition");
         }
         
     };
