@@ -21,7 +21,8 @@ namespace lake {
 
         LAKE_VISITOR_ACCEPT(ASTVisitor);
         
-        ConstDefAST(std::unique_ptr<IdentifierAST>  &&name,
+        ConstDefAST(size_t lineNumber,
+                    std::unique_ptr<IdentifierAST>  &&name,
                     std::unique_ptr<ConstAST> &&value);
         
         virtual ~ConstDefAST();

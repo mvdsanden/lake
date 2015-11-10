@@ -18,6 +18,7 @@
 namespace lake {
     
     class IdentifierAST;
+    class TypeAndNameAST;
     
     class FunctionPrototypeAST
     : public BaseAST
@@ -26,22 +27,25 @@ namespace lake {
         
         LAKE_VISITOR_ACCEPT(ASTVisitor);
                 
-        FunctionPrototypeAST(std::unique_ptr<IdentifierAST> &&name,
-                             std::vector<std::unique_ptr<IdentifierAST>> &&args);
+        FunctionPrototypeAST(size_t lineNumber,
+                             std::unique_ptr<TypeAndNameAST> &&typeAndName,
+                             std::vector<std::unique_ptr<TypeAndNameAST>> &&args);
         
         virtual ~FunctionPrototypeAST();
         
-        std::unique_ptr<IdentifierAST> const &name() const;
+        std::unique_ptr<TypeAndNameAST> const &typeAndName() const;
         
-        std::vector<std::unique_ptr<IdentifierAST>> const &args() const;
+        std::vector<std::unique_ptr<TypeAndNameAST>> const &args() const;
         
     private:
         
-        std::unique_ptr<IdentifierAST> d_name;
+        std::unique_ptr<TypeAndNameAST> d_typeAndName;
         
-        std::vector<std::unique_ptr<IdentifierAST>> d_args;
+        std::vector<std::unique_ptr<TypeAndNameAST>> d_args;
         
     };
+    
+
     
 }
 

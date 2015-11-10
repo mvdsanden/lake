@@ -20,6 +20,10 @@
 		C16D25331BE903EF00F20848 /* ExpressionAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25311BE903EF00F20848 /* ExpressionAST.cpp */; };
 		C16D25361BE90D6E00F20848 /* FunctionBlockAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25341BE90D6E00F20848 /* FunctionBlockAST.cpp */; };
 		C16D25391BE9144E00F20848 /* FunctionDefAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D25371BE9144E00F20848 /* FunctionDefAST.cpp */; };
+		C16D253D1BE9253F00F20848 /* CodeGenVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D253B1BE9253F00F20848 /* CodeGenVisitor.cpp */; };
+		C16D33241BF243A500F20848 /* TypeAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D33221BF243A500F20848 /* TypeAST.cpp */; };
+		C16D33271BF24BAE00F20848 /* TypeAndNameAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D33251BF24BAE00F20848 /* TypeAndNameAST.cpp */; };
+		C16D332A1BF24F2C00F20848 /* NativeTypeAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D33281BF24F2C00F20848 /* NativeTypeAST.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -61,6 +65,14 @@
 		C16D25351BE90D6E00F20848 /* FunctionBlockAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FunctionBlockAST.hpp; path = ast/FunctionBlockAST.hpp; sourceTree = "<group>"; };
 		C16D25371BE9144E00F20848 /* FunctionDefAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionDefAST.cpp; path = ast/FunctionDefAST.cpp; sourceTree = "<group>"; };
 		C16D25381BE9144E00F20848 /* FunctionDefAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FunctionDefAST.hpp; path = ast/FunctionDefAST.hpp; sourceTree = "<group>"; };
+		C16D253B1BE9253F00F20848 /* CodeGenVisitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CodeGenVisitor.cpp; path = ir/CodeGenVisitor.cpp; sourceTree = "<group>"; };
+		C16D253C1BE9253F00F20848 /* CodeGenVisitor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CodeGenVisitor.hpp; path = ir/CodeGenVisitor.hpp; sourceTree = "<group>"; };
+		C16D33221BF243A500F20848 /* TypeAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TypeAST.cpp; path = ast/TypeAST.cpp; sourceTree = "<group>"; };
+		C16D33231BF243A500F20848 /* TypeAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TypeAST.hpp; path = ast/TypeAST.hpp; sourceTree = "<group>"; };
+		C16D33251BF24BAE00F20848 /* TypeAndNameAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TypeAndNameAST.cpp; path = ast/TypeAndNameAST.cpp; sourceTree = "<group>"; };
+		C16D33261BF24BAE00F20848 /* TypeAndNameAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TypeAndNameAST.hpp; path = ast/TypeAndNameAST.hpp; sourceTree = "<group>"; };
+		C16D33281BF24F2C00F20848 /* NativeTypeAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NativeTypeAST.cpp; path = ast/NativeTypeAST.cpp; sourceTree = "<group>"; };
+		C16D33291BF24F2C00F20848 /* NativeTypeAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NativeTypeAST.hpp; path = ast/NativeTypeAST.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +105,7 @@
 		C16D25071BE8089500F20848 /* Lake */ = {
 			isa = PBXGroup;
 			children = (
+				C16D253A1BE924C900F20848 /* ir */,
 				C16D251A1BE827CC00F20848 /* util */,
 				C16D25131BE8262800F20848 /* ast */,
 				C16D250F1BE808B900F20848 /* lexer */,
@@ -134,6 +147,12 @@
 				C16D25351BE90D6E00F20848 /* FunctionBlockAST.hpp */,
 				C16D25371BE9144E00F20848 /* FunctionDefAST.cpp */,
 				C16D25381BE9144E00F20848 /* FunctionDefAST.hpp */,
+				C16D33221BF243A500F20848 /* TypeAST.cpp */,
+				C16D33231BF243A500F20848 /* TypeAST.hpp */,
+				C16D33251BF24BAE00F20848 /* TypeAndNameAST.cpp */,
+				C16D33261BF24BAE00F20848 /* TypeAndNameAST.hpp */,
+				C16D33281BF24F2C00F20848 /* NativeTypeAST.cpp */,
+				C16D33291BF24F2C00F20848 /* NativeTypeAST.hpp */,
 			);
 			name = ast;
 			sourceTree = "<group>";
@@ -152,6 +171,15 @@
 				C16D25291BE84DDB00F20848 /* Parser.hpp */,
 			);
 			name = parser;
+			sourceTree = "<group>";
+		};
+		C16D253A1BE924C900F20848 /* ir */ = {
+			isa = PBXGroup;
+			children = (
+				C16D253B1BE9253F00F20848 /* CodeGenVisitor.cpp */,
+				C16D253C1BE9253F00F20848 /* CodeGenVisitor.hpp */,
+			);
+			name = ir;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C16D252A1BE84DDB00F20848 /* Parser.cpp in Sources */,
+				C16D33271BF24BAE00F20848 /* TypeAndNameAST.cpp in Sources */,
 				C16D25301BE85CC300F20848 /* ASTPrintVisitor.cpp in Sources */,
 				C16D25391BE9144E00F20848 /* FunctionDefAST.cpp in Sources */,
 				C16D25201BE8281500F20848 /* ASTVisitor.cpp in Sources */,
@@ -220,8 +249,11 @@
 				C16D25361BE90D6E00F20848 /* FunctionBlockAST.cpp in Sources */,
 				C16D25121BE808E200F20848 /* Lexer.cpp in Sources */,
 				C16D25231BE8297900F20848 /* FunctionPrototypeAST.cpp in Sources */,
+				C16D253D1BE9253F00F20848 /* CodeGenVisitor.cpp in Sources */,
+				C16D332A1BF24F2C00F20848 /* NativeTypeAST.cpp in Sources */,
 				C16D25161BE8264600F20848 /* BaseAST.cpp in Sources */,
 				C16D25091BE8089500F20848 /* main.cpp in Sources */,
+				C16D33241BF243A500F20848 /* TypeAST.cpp in Sources */,
 				C16D252D1BE8544B00F20848 /* ConstDefAST.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,9 +297,145 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Users/mart/.local/include;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-I/Users/mart/.local/include",
+					"-DNDEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_CONSTANT_MACROS",
+					"-D__STDC_FORMAT_MACROS",
+					"-D__STDC_LIMIT_MACROS",
+					"-O3",
+					"-std=c++11",
+					"-fvisibility-inlines-hidden",
+					"-fno-exceptions",
+					"-fno-rtti",
+					"-fno-common",
+					"-Wcast-qual",
+				);
+				OTHER_LDFLAGS = (
+					"-L/Users/mart/.local/lib",
+					"-lLLVMLTO",
+					"-lLLVMObjCARCOpts",
+					"-lLLVMLinker",
+					"-lLLVMBitWriter",
+					"-lLLVMIRReader",
+					"-lLLVMBPFCodeGen",
+					"-lLLVMBPFDesc",
+					"-lLLVMBPFInfo",
+					"-lLLVMBPFAsmPrinter",
+					"-lLLVMAMDGPUCodeGen",
+					"-lLLVMAMDGPUAsmParser",
+					"-lLLVMAMDGPUUtils",
+					"-lLLVMAMDGPUDesc",
+					"-lLLVMAMDGPUInfo",
+					"-lLLVMAMDGPUAsmPrinter",
+					"-lLLVMSystemZDisassembler",
+					"-lLLVMSystemZCodeGen",
+					"-lLLVMSystemZAsmParser",
+					"-lLLVMSystemZDesc",
+					"-lLLVMSystemZInfo",
+					"-lLLVMSystemZAsmPrinter",
+					"-lLLVMHexagonDisassembler",
+					"-lLLVMHexagonCodeGen",
+					"-lLLVMHexagonDesc",
+					"-lLLVMHexagonInfo",
+					"-lLLVMNVPTXCodeGen",
+					"-lLLVMNVPTXDesc",
+					"-lLLVMNVPTXInfo",
+					"-lLLVMNVPTXAsmPrinter",
+					"-lLLVMCppBackendCodeGen",
+					"-lLLVMCppBackendInfo",
+					"-lLLVMMSP430CodeGen",
+					"-lLLVMMSP430Desc",
+					"-lLLVMMSP430Info",
+					"-lLLVMMSP430AsmPrinter",
+					"-lLLVMXCoreDisassembler",
+					"-lLLVMXCoreCodeGen",
+					"-lLLVMXCoreDesc",
+					"-lLLVMXCoreInfo",
+					"-lLLVMXCoreAsmPrinter",
+					"-lLLVMMipsDisassembler",
+					"-lLLVMMipsCodeGen",
+					"-lLLVMMipsAsmParser",
+					"-lLLVMMipsDesc",
+					"-lLLVMMipsInfo",
+					"-lLLVMMipsAsmPrinter",
+					"-lLLVMAArch64Disassembler",
+					"-lLLVMAArch64CodeGen",
+					"-lLLVMAArch64AsmParser",
+					"-lLLVMAArch64Desc",
+					"-lLLVMAArch64Info",
+					"-lLLVMAArch64AsmPrinter",
+					"-lLLVMAArch64Utils",
+					"-lLLVMARMDisassembler",
+					"-lLLVMARMCodeGen",
+					"-lLLVMARMAsmParser",
+					"-lLLVMARMDesc",
+					"-lLLVMARMInfo",
+					"-lLLVMARMAsmPrinter",
+					"-lLLVMPowerPCDisassembler",
+					"-lLLVMPowerPCCodeGen",
+					"-lLLVMPowerPCAsmParser",
+					"-lLLVMPowerPCDesc",
+					"-lLLVMPowerPCInfo",
+					"-lLLVMPowerPCAsmPrinter",
+					"-lLLVMSparcDisassembler",
+					"-lLLVMSparcCodeGen",
+					"-lLLVMSparcAsmParser",
+					"-lLLVMSparcDesc",
+					"-lLLVMSparcInfo",
+					"-lLLVMSparcAsmPrinter",
+					"-lLLVMMIRParser",
+					"-lLLVMAsmParser",
+					"-lLLVMLibDriver",
+					"-lLLVMOption",
+					"-lLLVMDebugInfoPDB",
+					"-lLLVMTableGen",
+					"-lLLVMOrcJIT",
+					"-lLLVMLineEditor",
+					"-lLLVMX86Disassembler",
+					"-lLLVMX86AsmParser",
+					"-lLLVMX86CodeGen",
+					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMX86Desc",
+					"-lLLVMMCDisassembler",
+					"-lLLVMX86Info",
+					"-lLLVMX86AsmPrinter",
+					"-lLLVMX86Utils",
+					"-lLLVMMCJIT",
+					"-lLLVMDebugInfoDWARF",
+					"-lLLVMPasses",
+					"-lLLVMipo",
+					"-lLLVMVectorize",
+					"-lLLVMInterpreter",
+					"-lLLVMExecutionEngine",
+					"-lLLVMRuntimeDyld",
+					"-lLLVMCodeGen",
+					"-lLLVMTarget",
+					"-lLLVMScalarOpts",
+					"-lLLVMProfileData",
+					"-lLLVMObject",
+					"-lLLVMMCParser",
+					"-lLLVMBitReader",
+					"-lLLVMInstCombine",
+					"-lLLVMInstrumentation",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMMC",
+					"-lLLVMAnalysis",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lz",
+					"-lpthread",
+					"-ledit",
+					"-lcurses",
+					"-lm",
+				);
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -302,8 +470,144 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Users/mart/.local/include;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-I/Users/mart/.local/include",
+					"-DNDEBUG",
+					"-D_GNU_SOURCE",
+					"-D__STDC_CONSTANT_MACROS",
+					"-D__STDC_FORMAT_MACROS",
+					"-D__STDC_LIMIT_MACROS",
+					"-O3",
+					"-std=c++11",
+					"-fvisibility-inlines-hidden",
+					"-fno-exceptions",
+					"-fno-rtti",
+					"-fno-common",
+					"-Wcast-qual",
+				);
+				OTHER_LDFLAGS = (
+					"-L/Users/mart/.local/lib",
+					"-lLLVMLTO",
+					"-lLLVMObjCARCOpts",
+					"-lLLVMLinker",
+					"-lLLVMBitWriter",
+					"-lLLVMIRReader",
+					"-lLLVMBPFCodeGen",
+					"-lLLVMBPFDesc",
+					"-lLLVMBPFInfo",
+					"-lLLVMBPFAsmPrinter",
+					"-lLLVMAMDGPUCodeGen",
+					"-lLLVMAMDGPUAsmParser",
+					"-lLLVMAMDGPUUtils",
+					"-lLLVMAMDGPUDesc",
+					"-lLLVMAMDGPUInfo",
+					"-lLLVMAMDGPUAsmPrinter",
+					"-lLLVMSystemZDisassembler",
+					"-lLLVMSystemZCodeGen",
+					"-lLLVMSystemZAsmParser",
+					"-lLLVMSystemZDesc",
+					"-lLLVMSystemZInfo",
+					"-lLLVMSystemZAsmPrinter",
+					"-lLLVMHexagonDisassembler",
+					"-lLLVMHexagonCodeGen",
+					"-lLLVMHexagonDesc",
+					"-lLLVMHexagonInfo",
+					"-lLLVMNVPTXCodeGen",
+					"-lLLVMNVPTXDesc",
+					"-lLLVMNVPTXInfo",
+					"-lLLVMNVPTXAsmPrinter",
+					"-lLLVMCppBackendCodeGen",
+					"-lLLVMCppBackendInfo",
+					"-lLLVMMSP430CodeGen",
+					"-lLLVMMSP430Desc",
+					"-lLLVMMSP430Info",
+					"-lLLVMMSP430AsmPrinter",
+					"-lLLVMXCoreDisassembler",
+					"-lLLVMXCoreCodeGen",
+					"-lLLVMXCoreDesc",
+					"-lLLVMXCoreInfo",
+					"-lLLVMXCoreAsmPrinter",
+					"-lLLVMMipsDisassembler",
+					"-lLLVMMipsCodeGen",
+					"-lLLVMMipsAsmParser",
+					"-lLLVMMipsDesc",
+					"-lLLVMMipsInfo",
+					"-lLLVMMipsAsmPrinter",
+					"-lLLVMAArch64Disassembler",
+					"-lLLVMAArch64CodeGen",
+					"-lLLVMAArch64AsmParser",
+					"-lLLVMAArch64Desc",
+					"-lLLVMAArch64Info",
+					"-lLLVMAArch64AsmPrinter",
+					"-lLLVMAArch64Utils",
+					"-lLLVMARMDisassembler",
+					"-lLLVMARMCodeGen",
+					"-lLLVMARMAsmParser",
+					"-lLLVMARMDesc",
+					"-lLLVMARMInfo",
+					"-lLLVMARMAsmPrinter",
+					"-lLLVMPowerPCDisassembler",
+					"-lLLVMPowerPCCodeGen",
+					"-lLLVMPowerPCAsmParser",
+					"-lLLVMPowerPCDesc",
+					"-lLLVMPowerPCInfo",
+					"-lLLVMPowerPCAsmPrinter",
+					"-lLLVMSparcDisassembler",
+					"-lLLVMSparcCodeGen",
+					"-lLLVMSparcAsmParser",
+					"-lLLVMSparcDesc",
+					"-lLLVMSparcInfo",
+					"-lLLVMSparcAsmPrinter",
+					"-lLLVMMIRParser",
+					"-lLLVMAsmParser",
+					"-lLLVMLibDriver",
+					"-lLLVMOption",
+					"-lLLVMDebugInfoPDB",
+					"-lLLVMTableGen",
+					"-lLLVMOrcJIT",
+					"-lLLVMLineEditor",
+					"-lLLVMX86Disassembler",
+					"-lLLVMX86AsmParser",
+					"-lLLVMX86CodeGen",
+					"-lLLVMSelectionDAG",
+					"-lLLVMAsmPrinter",
+					"-lLLVMX86Desc",
+					"-lLLVMMCDisassembler",
+					"-lLLVMX86Info",
+					"-lLLVMX86AsmPrinter",
+					"-lLLVMX86Utils",
+					"-lLLVMMCJIT",
+					"-lLLVMDebugInfoDWARF",
+					"-lLLVMPasses",
+					"-lLLVMipo",
+					"-lLLVMVectorize",
+					"-lLLVMInterpreter",
+					"-lLLVMExecutionEngine",
+					"-lLLVMRuntimeDyld",
+					"-lLLVMCodeGen",
+					"-lLLVMTarget",
+					"-lLLVMScalarOpts",
+					"-lLLVMProfileData",
+					"-lLLVMObject",
+					"-lLLVMMCParser",
+					"-lLLVMBitReader",
+					"-lLLVMInstCombine",
+					"-lLLVMInstrumentation",
+					"-lLLVMTransformUtils",
+					"-lLLVMipa",
+					"-lLLVMMC",
+					"-lLLVMAnalysis",
+					"-lLLVMCore",
+					"-lLLVMSupport",
+					"-lz",
+					"-lpthread",
+					"-ledit",
+					"-lcurses",
+					"-lm",
+				);
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -311,6 +615,12 @@
 		C16D250D1BE8089500F20848 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+					"$(PROJECT_DIR)/lib/clang/3.7.0/lib/darwin",
+					"$(PROJECT_DIR)/lib/clang/3.7.0/lib/macho_embedded",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -318,6 +628,12 @@
 		C16D250E1BE8089500F20848 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+					"$(PROJECT_DIR)/lib/clang/3.7.0/lib/darwin",
+					"$(PROJECT_DIR)/lib/clang/3.7.0/lib/macho_embedded",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

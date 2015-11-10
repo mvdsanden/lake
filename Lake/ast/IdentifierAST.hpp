@@ -22,7 +22,7 @@ namespace lake {
         
         LAKE_VISITOR_ACCEPT(ASTVisitor);
                 
-        IdentifierAST(std::string const &name);
+        IdentifierAST(size_t lineNumber, std::string const &name);
         
         virtual ~IdentifierAST();
         

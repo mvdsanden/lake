@@ -28,6 +28,8 @@ int main(int argc, const char * argv[]) {
         ll.next();
     }
      */
+
+    auto logVisitor = lake::ASTPrintVisitor::create(std::cout);
     
     while (true) {
         
@@ -37,9 +39,9 @@ int main(int argc, const char * argv[]) {
             break;
         }
             
-        auto visitor = lake::ASTPrintVisitor::create(std::cout);
+
             
-        ast->accept(visitor.get());
+        ast->accept(logVisitor.get());
 
         std::cout.flush();
         

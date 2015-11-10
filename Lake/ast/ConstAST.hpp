@@ -21,6 +21,11 @@ namespace lake {
     {
     public:
         
+        ConstAST(size_t lineNumber)
+        : BaseAST(lineNumber)
+        {            
+        }
+        
     };
     
     template <class T>
@@ -32,8 +37,8 @@ namespace lake {
         LAKE_VISITOR_ACCEPT(ASTVisitor);
         
         
-        ConstValueAST(T const &value)
-        : d_value(value)
+        ConstValueAST(size_t lineNumber, T const &value)
+        : ConstAST(lineNumber), d_value(value)
         {
         }
         

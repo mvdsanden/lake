@@ -27,8 +27,8 @@ namespace lake {
         
         LAKE_VISITOR_ACCEPT(ASTVisitor);
         
-        FunctionBlockAST(std::vector<std::unique_ptr<ExpressionAST>> &&expressions)
-        : d_expressions(std::move(expressions))
+        FunctionBlockAST(size_t lineNumber, std::vector<std::unique_ptr<ExpressionAST>> &&expressions)
+        : BaseAST(lineNumber), d_expressions(std::move(expressions))
         {
         }
         

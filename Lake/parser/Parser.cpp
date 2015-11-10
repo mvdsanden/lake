@@ -16,6 +16,9 @@
 #include "ExpressionAST.hpp"
 #include "FunctionBlockAST.hpp"
 #include "FunctionDefAST.hpp"
+#include "TypeAST.hpp"
+#include "NativeTypeAST.hpp"
+#include "TypeAndNameAST.hpp"
 
 #include <iostream>
 #include <vector>
@@ -77,7 +80,7 @@ namespace lake {
                 return error(lexer, "expected identifier");
             }
             
-            std::unique_ptr<IdentifierAST> name(new IdentifierAST(lexer.identifierValue()));
+            std::unique_ptr<IdentifierAST> name(new IdentifierAST(lexer.lineNumber(), lexer.identifierValue()));
             
             lexer.next();
             if (lexer.token() != '=') {
@@ -87,15 +90,15 @@ namespace lake {
             lexer.next();
             switch (lexer.token()) {
                 case Lexer::TOK_CONST_DOUBLE:
-                    value = std::unique_ptr<ConstAST>(new ConstValueAST<double>(lexer.doubleValue()));
+                    value = std::unique_ptr<ConstAST>(new ConstValueAST<double>(lexer.lineNumber(), lexer.doubleValue()));
                     break;
                     
                 case Lexer::TOK_CONST_LITERAL:
-                    value = std::unique_ptr<ConstAST>(new ConstValueAST<int>(lexer.literalValue()));
+                    value = std::unique_ptr<ConstAST>(new ConstValueAST<int>(lexer.lineNumber(), lexer.literalValue()));
                     break;
                     
                 case Lexer::TOK_CONST_STRING:
-                    value = std::unique_ptr<ConstAST>(new ConstValueAST<std::string>(lexer.stringValue()));
+                    value = std::unique_ptr<ConstAST>(new ConstValueAST<std::string>(lexer.lineNumber(), lexer.stringValue()));
                     break;
                     
                 default:
@@ -108,7 +111,7 @@ namespace lake {
                 error(lexer, "expected ';'");
             }
             
-            return std::unique_ptr<BaseAST>(new ConstDefAST(std::move(name), std::move(value)));
+            return std::unique_ptr<BaseAST>(new ConstDefAST(lexer.lineNumber(), std::move(name), std::move(value)));
         }
 
         std::unique_ptr<BaseAST> parseFunc(Lexer &lexer)
@@ -121,7 +124,7 @@ namespace lake {
             
             if (lexer.token() == '{') {
                 auto blk = parseFuncBlock(lexer);
-                return std::unique_ptr<FunctionDefAST>(new FunctionDefAST(std::move(decl), std::move(blk)));
+                return std::unique_ptr<FunctionDefAST>(new FunctionDefAST(lexer.lineNumber(), std::move(decl), std::move(blk)));
             //} else if (lexer.token() == '=') {
                 
             } else {
@@ -129,18 +132,48 @@ namespace lake {
             }
         }
         
-        std::unique_ptr<FunctionPrototypeAST> parseFuncDecl(Lexer &lexer)
+        std::unique_ptr<TypeAndNameAST> parseTypeAndName(Lexer &lexer)
         {
-            lexer.next();
+
+            std::unique_ptr<TypeAST> type;
             
+            switch (lexer.token()) {
+                case Lexer::TOK_TYPE_INT_8: type = std::unique_ptr<TypeAST>(new TypeInt8AST(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_INT_16: type = std::unique_ptr<TypeAST>(new TypeInt16AST(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_INT_32: type = std::unique_ptr<TypeAST>(new TypeInt32AST(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_INT_64: type = std::unique_ptr<TypeAST>(new TypeInt64AST(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_UINT_8: type = std::unique_ptr<TypeAST>(new TypeUInt8AST(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_UINT_16: type = std::unique_ptr<TypeAST>(new TypeUInt16AST(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_UINT_32: type = std::unique_ptr<TypeAST>(new TypeUInt32AST(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_UINT_64: type = std::unique_ptr<TypeAST>(new TypeUInt64AST(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_FLOAT: type = std::unique_ptr<TypeAST>(new TypeFloatAST(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_DOUBLE: type = std::unique_ptr<TypeAST>(new TypeDoubleAST(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_STRING: type = std::unique_ptr<TypeAST>(new TypeStringAST(lexer.lineNumber())); break;
+
+                default:
+                    error(lexer, "expected type specifier");
+                    return nullptr;
+            };
+            
+            lexer.next();
+
             if (lexer.token() != Lexer::TOK_IDENTIFIER) {
                 error(lexer, "expected identifier");
                 return nullptr;
             }
             
-            std::unique_ptr<IdentifierAST> name(new IdentifierAST(lexer.identifierValue()));
-            
+            std::unique_ptr<IdentifierAST> name(new IdentifierAST(lexer.lineNumber(), lexer.identifierValue()));
             lexer.next();
+            
+            return std::unique_ptr<TypeAndNameAST>(new TypeAndNameAST(lexer.lineNumber(), std::move(type), std::move(name)));
+        }
+        
+        std::unique_ptr<FunctionPrototypeAST> parseFuncDecl(Lexer &lexer)
+        {
+            lexer.next();
+            
+            auto typeName = parseTypeAndName(lexer);
+            
             if (lexer.token() != '(') {
                 error(lexer, "expected '('");
                 return nullptr;
@@ -148,27 +181,26 @@ namespace lake {
             
             lexer.next();
             
-            std::vector<std::unique_ptr<IdentifierAST>> args;
-            while (lexer.token() != ')') {
+            std::vector<std::unique_ptr<TypeAndNameAST>> args;
+            while (true) {
                 
-                if (lexer.token() != Lexer::TOK_IDENTIFIER) {
-                    args.push_back(nullptr);
-                    error(lexer, "expected identifier");
+                auto argTypeName = parseTypeAndName(lexer);
+                
+                args.push_back(std::move(argTypeName));
+                
+                if (lexer.token() == ')') {
+                    lexer.next();
+                    break;
+                } else if (lexer.token() == ',') {
                     lexer.next();
                 } else {
-                    args.push_back(std::unique_ptr<IdentifierAST>(new IdentifierAST(lexer.identifierValue())));
-                    lexer.next();
-                }
-                
-                if (lexer.token() == ',') {
-                    lexer.next();
+                    error(lexer, "expected ',' or ')'");
+                    break;
                 }
                 
             }
             
-            lexer.next();
-            
-            return std::unique_ptr<FunctionPrototypeAST>(new FunctionPrototypeAST(std::move(name), std::move(args)));
+            return std::unique_ptr<FunctionPrototypeAST>(new FunctionPrototypeAST(lexer.lineNumber(), std::move(typeName), std::move(args)));
         }
         
         std::unique_ptr<FunctionBlockAST> parseFuncBlock(Lexer &lexer)
@@ -178,7 +210,12 @@ namespace lake {
             lexer.next();
             
             while (lexer.token() != '}') {
-                expressionList.push_back(parseExpression(lexer));
+                
+                if (lexer.token() == Lexer::TOK_RETURN) {
+                    expressionList.push_back(parseReturnExpression(lexer));
+                } else {
+                    expressionList.push_back(parseExpression(lexer));
+                }
                 
                 if (lexer.token() != ';') {
                     error(lexer, "expected ';'");
@@ -187,7 +224,7 @@ namespace lake {
                 }
             }
             
-            return std::unique_ptr<FunctionBlockAST>(new FunctionBlockAST(std::move(expressionList)));
+            return std::unique_ptr<FunctionBlockAST>(new FunctionBlockAST(lexer.lineNumber(), std::move(expressionList)));
         }
 
         std::unique_ptr<ExpressionAST> parsePrimaryExpression(Lexer &lexer)
@@ -213,33 +250,33 @@ namespace lake {
         
         std::unique_ptr<ExpressionAST> parseDoubleExpression(Lexer &lexer)
         {
-            auto expr = std::unique_ptr<ExpressionAST>(new ConstExpressionAST<double>(lexer.doubleValue()));
+            auto expr = std::unique_ptr<ExpressionAST>(new ConstExpressionAST<double>(lexer.lineNumber(), lexer.doubleValue()));
             lexer.next();
             return std::move(expr);
         }
 
         std::unique_ptr<ExpressionAST> parseLiteralExpression(Lexer &lexer)
         {
-            auto expr = std::unique_ptr<ExpressionAST>(new ConstExpressionAST<int>(lexer.literalValue()));
+            auto expr = std::unique_ptr<ExpressionAST>(new ConstExpressionAST<int>(lexer.lineNumber(), lexer.literalValue()));
             lexer.next();
             return std::move(expr);
         }
 
         std::unique_ptr<ExpressionAST> parseStringExpression(Lexer &lexer)
         {
-            auto expr = std::unique_ptr<ExpressionAST>(new ConstExpressionAST<std::string>(lexer.stringValue()));
+            auto expr = std::unique_ptr<ExpressionAST>(new ConstExpressionAST<std::string>(lexer.lineNumber(), lexer.stringValue()));
             lexer.next();
             return std::move(expr);
         }
 
         std::unique_ptr<ExpressionAST> parseIdentifierExpression(Lexer &lexer)
         {
-            auto name = std::unique_ptr<IdentifierAST>(new IdentifierAST(lexer.identifierValue()));
+            auto name = std::unique_ptr<IdentifierAST>(new IdentifierAST(lexer.lineNumber(), lexer.identifierValue()));
             
             lexer.next();
             
             if (lexer.token() != '(') {
-                return std::unique_ptr<ExpressionAST>(new VarExpressionAST(std::move(name)));
+                return std::unique_ptr<ExpressionAST>(new VarExpressionAST(lexer.lineNumber(), std::move(name)));
             }
             
             lexer.next();
@@ -258,7 +295,16 @@ namespace lake {
             
             lexer.next();
             
-            return std::unique_ptr<ExpressionAST>(new CallExpressionAST(std::move(name), std::move(args)));
+            return std::unique_ptr<ExpressionAST>(new CallExpressionAST(lexer.lineNumber(), std::move(name), std::move(args)));
+        }
+
+        std::unique_ptr<ExpressionAST> parseReturnExpression(Lexer &lexer)
+        {
+            lexer.next();
+            
+            auto rhs = parseExpression(lexer);
+            
+            return std::unique_ptr<ExpressionAST>(new ReturnExpressionAST(lexer.lineNumber(), std::move(rhs)));
         }
         
         std::unique_ptr<ExpressionAST> parseExpression(Lexer &lexer)
@@ -302,7 +348,7 @@ namespace lake {
                     }
                 }
                 
-                lhs = std::unique_ptr<ExpressionAST>(new BinOpExpressionAST(op, std::move(lhs), std::move(rhs)));
+                lhs = std::unique_ptr<ExpressionAST>(new BinOpExpressionAST(lexer.lineNumber(), op, std::move(lhs), std::move(rhs)));
             }
             
         }

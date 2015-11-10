@@ -12,8 +12,8 @@
 
 using namespace lake;
 
-IdentifierAST::IdentifierAST(std::string const &name)
-: d_name(name)
+IdentifierAST::IdentifierAST(size_t lineNumber, std::string const &name)
+: BaseAST(lineNumber), d_name(name)
 {
 }
 

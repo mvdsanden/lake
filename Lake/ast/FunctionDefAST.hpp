@@ -21,7 +21,8 @@ namespace lake {
         
         LAKE_VISITOR_ACCEPT(ASTVisitor);
 
-        FunctionDefAST(std::unique_ptr<FunctionPrototypeAST> &&prototype,
+        FunctionDefAST(size_t lineNumber,
+                       std::unique_ptr<FunctionPrototypeAST> &&prototype,
                        std::unique_ptr<FunctionBlockAST> &&block);
         
         std::unique_ptr<FunctionPrototypeAST> const &prototype() const;

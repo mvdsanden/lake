@@ -32,6 +32,20 @@ d_lineNumber(1)
     d_keywords["var"] = TOK_VAR;
     d_keywords["const"] = TOK_CONST;
     d_keywords["func"] = TOK_FUNC;
+    d_keywords["return"] = TOK_FUNC;
+    
+    // Native types.
+    d_keywords["int8_t"] = TOK_TYPE_INT_8;
+    d_keywords["int16_t"] = TOK_TYPE_INT_16;
+    d_keywords["int32_t"] = TOK_TYPE_INT_32;
+    d_keywords["int64_t"] = TOK_TYPE_INT_64;
+    d_keywords["uint8_t"] = TOK_TYPE_UINT_8;
+    d_keywords["uint16_t"] = TOK_TYPE_UINT_16;
+    d_keywords["uint32_t"] = TOK_TYPE_UINT_32;
+    d_keywords["uint64_t"] = TOK_TYPE_UINT_64;
+    d_keywords["float"] = TOK_TYPE_FLOAT;
+    d_keywords["double"] = TOK_TYPE_DOUBLE;
+    d_keywords["string"] = TOK_TYPE_STRING;
     
     getch();
 }
@@ -55,7 +69,7 @@ void Lexer::next()
         } else if (isblank(d_ch)) {
             getch();
             continue;
-        } else if (isalpha(d_ch)) {
+        } else if (isalpha(d_ch) || d_ch == '_') {
             lexIdentifier();
             break;
         } else if (isnumber(d_ch) || d_ch == '.') {
@@ -124,7 +138,7 @@ void Lexer::skipLine()
 void Lexer::lexIdentifier()
 {
     d_value.clear();
-    while (isalnum(d_ch)) {
+    while (isalnum(d_ch) || d_ch == '_') {
         d_value += d_ch;
         getch();
     }

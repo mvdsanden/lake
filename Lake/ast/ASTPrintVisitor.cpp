@@ -16,6 +16,8 @@
 #include "ExpressionAST.hpp"
 #include "FunctionBlockAST.hpp"
 #include "FunctionDefAST.hpp"
+#include "TypeAndNameAST.hpp"
+#include "TypeAST.hpp"
 
 #include <iostream>
 
@@ -65,7 +67,7 @@ namespace lake {
         virtual void visit(FunctionPrototypeAST const *node)
         {
             d_stream << "(FUNCTION (";
-            node->name()->accept(this);
+            node->typeAndName()->accept(this);
             d_stream << ")";
             
             for (auto i = node->args().begin(); i != node->args().end(); ++i) {
@@ -162,6 +164,74 @@ namespace lake {
                 d_stream << ")";
             }
             d_stream << ")\n";
+        }
+
+        virtual void visit(ReturnExpressionAST const *node)
+        {
+            d_stream << "(RETURN (";
+            node->rhs()->accept(this);
+            d_stream << "))\n";
+        }
+        
+        virtual void visit(TypeAndNameAST const *node)
+        {
+            node->type()->accept(this);
+            node->name()->accept(this);
+        }
+        
+        virtual void visit(TypeInt8AST const *node)
+        {
+            d_stream << "(INT8)";
+        }
+        
+        virtual void visit(TypeInt16AST const *node)
+        {
+            d_stream << "(INT16)";
+        }
+        
+        virtual void visit(TypeInt32AST const *node)
+        {
+            d_stream << "(INT32)";
+        }
+        
+        virtual void visit(TypeInt64AST const *node)
+        {
+            d_stream << "(INT64)";
+        }
+        
+        virtual void visit(TypeUInt8AST const *node)
+        {
+            d_stream << "(UINT8)";
+        }
+        
+        virtual void visit(TypeUInt16AST const *node)
+        {
+            d_stream << "(UINT16)";
+        }
+        
+        virtual void visit(TypeUInt32AST const *node)
+        {
+            d_stream << "(UINT32)";
+        }
+        
+        virtual void visit(TypeUInt64AST const *node)
+        {
+            d_stream << "(UINT64)";
+        }
+        
+        virtual void visit(TypeFloatAST const *node)
+        {
+            d_stream << "(FLOAT)";
+        }
+        
+        virtual void visit(TypeDoubleAST const *node)
+        {
+            d_stream << "(DOUBLE)";
+        }
+        
+        virtual void visit(TypeStringAST const *node)
+        {
+            d_stream << "(STRING)";
         }
         
     };

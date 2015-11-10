@@ -18,10 +18,24 @@ namespace lake {
     class BaseAST {
     public:
         
+        BaseAST(size_t lineNumber)
+        : d_lineNumber(lineNumber)
+        {
+        }
+        
         virtual ~BaseAST() {}
         
-        virtual void accept(ASTVisitor *visitor) = 0;
+        virtual void accept(ASTVisitor *visitor) const = 0;
         
+        size_t lineNumber() const
+        {
+            return d_lineNumber;
+        }
+    
+        
+    private:
+        
+        size_t d_lineNumber;
         
     };
 }

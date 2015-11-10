@@ -22,6 +22,10 @@ namespace lake {
     {
     public:
         
+        ExpressionAST(size_t lineNumber)
+        : BaseAST(lineNumber)
+        {
+        }
         
     };
     
@@ -32,10 +36,11 @@ namespace lake {
         
         LAKE_VISITOR_ACCEPT(ASTVisitor);
         
-        BinOpExpressionAST(int op,
+        BinOpExpressionAST(size_t lineNumber,
+                           int op,
                            std::unique_ptr<ExpressionAST> &&lhs,
                            std::unique_ptr<ExpressionAST> &&rhs)
-        : d_op(op), d_lhs(std::move(lhs)), d_rhs(std::move(rhs))
+        : ExpressionAST(lineNumber), d_op(op), d_lhs(std::move(lhs)), d_rhs(std::move(rhs))
         {
         }
 
@@ -72,8 +77,8 @@ namespace lake {
         
         LAKE_VISITOR_ACCEPT(ASTVisitor);
         
-        ConstExpressionAST(T const &value)
-        : d_value(value)
+        ConstExpressionAST(size_t lineNumber, T const &value)
+        : ExpressionAST(lineNumber), d_value(value)
         {
         }
         
@@ -95,8 +100,8 @@ namespace lake {
 
         LAKE_VISITOR_ACCEPT(ASTVisitor);
         
-        VarExpressionAST(std::unique_ptr<IdentifierAST> &&name)
-        : d_name(std::move(name))
+        VarExpressionAST(size_t lineNumber, std::unique_ptr<IdentifierAST> &&name)
+        : ExpressionAST(lineNumber), d_name(std::move(name))
         {
         }
         
@@ -118,9 +123,10 @@ namespace lake {
         
         LAKE_VISITOR_ACCEPT(ASTVisitor);
         
-        CallExpressionAST(std::unique_ptr<IdentifierAST> &&name,
+        CallExpressionAST(size_t lineNumber,
+                          std::unique_ptr<IdentifierAST> &&name,
                           std::vector<std::unique_ptr<ExpressionAST>> &&args)
-        : d_name(std::move(name)), d_args(std::move(args))
+        : ExpressionAST(lineNumber), d_name(std::move(name)), d_args(std::move(args))
         {
         }
         
@@ -140,6 +146,28 @@ namespace lake {
         
         std::vector<std::unique_ptr<ExpressionAST>> d_args;
         
+    };
+    
+    class ReturnExpressionAST
+    : public ExpressionAST
+    {
+    public:
+        
+        LAKE_VISITOR_ACCEPT(ASTVisitor);
+        
+        ReturnExpressionAST(size_t lineNumber, std::unique_ptr<ExpressionAST> &&rhs)
+        : ExpressionAST(lineNumber), d_rhs(std::move(rhs))
+        {
+            
+        }
+        
+        std::unique_ptr<ExpressionAST> const &rhs() const
+        {
+            return d_rhs;
+        }
+        
+    private:
+        std::unique_ptr<ExpressionAST> d_rhs;
     };
 
     

@@ -10,9 +10,10 @@
 
 using namespace lake;
 
-FunctionDefAST::FunctionDefAST(std::unique_ptr<FunctionPrototypeAST> &&prototype,
+FunctionDefAST::FunctionDefAST(size_t lineNumber,
+                               std::unique_ptr<FunctionPrototypeAST> &&prototype,
                                std::unique_ptr<FunctionBlockAST> &&block)
-: d_prototype(std::move(prototype)), d_block(std::move(block))
+: BaseAST(lineNumber), d_prototype(std::move(prototype)), d_block(std::move(block))
 {
     
 }
