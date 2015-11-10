@@ -12,9 +12,9 @@ using namespace lake;
 
 
 ConstDefAST::ConstDefAST(size_t lineNumber,
-                         std::unique_ptr<IdentifierAST> &&name,
+                         std::unique_ptr<TypeAndNameAST> &&typeAndName,
                          std::unique_ptr<ConstAST> &&value)
-: BaseAST(lineNumber), d_name(std::move(name)), d_value(std::move(value))
+: BaseAST(lineNumber), d_typeAndName(std::move(typeAndName)), d_value(std::move(value))
 {
 }
 
@@ -23,9 +23,9 @@ ConstDefAST::~ConstDefAST()
     
 }
 
-std::unique_ptr<IdentifierAST> const &ConstDefAST::name() const
+std::unique_ptr<TypeAndNameAST> const &ConstDefAST::typeAndName() const
 {
-    return d_name;
+    return d_typeAndName;
 }
 
 std::unique_ptr<ConstAST> const &ConstDefAST::value() const

@@ -36,29 +36,46 @@ namespace lake {
         {
         }
         
-        virtual void visit(ConstValueAST<double> const *node)
+        virtual void visit(ConstValueAST<int8_t> const *node)
         {
             if (node) {
                 d_stream << node->value();
             } else {
                 d_stream << "NULL";
             }
-
+        }
+        
+        virtual void visit(ConstValueAST<int64_t> const *node)
+        {
+            if (node) {
+                d_stream << node->value();
+            } else {
+                d_stream << "NULL";
+            }
+        }
+        
+        virtual void visit(ConstValueAST<uint64_t> const *node)
+        {
+            if (node) {
+                d_stream << node->value() << "u";
+            } else {
+                d_stream << "NULL";
+            }
+        }
+        
+        virtual void visit(ConstValueAST<double> const *node)
+        {
+            if (node) {
+                d_stream << node->value() << "f";
+            } else {
+                d_stream << "NULL";
+            }
         }
         
         virtual void visit(ConstValueAST<std::string> const *node)
         {
             if (node) {
-                d_stream << node->value();
-            } else {
-                d_stream << "NULL";
-            }
-        }
-        
-        virtual void visit(ConstValueAST<int> const *node)
-        {
-            if (node) {
-                d_stream << node->value();
+                d_stream << '"' << node->value() << '"';
             } else {
                 d_stream << "NULL";
             }
@@ -91,7 +108,7 @@ namespace lake {
         virtual void visit(ConstDefAST const *node)
         {
             d_stream << "(";
-            node->name()->accept(this);
+            node->typeAndName()->accept(this);
             d_stream << ")";
             node->value()->accept(this);
         }
@@ -109,6 +126,21 @@ namespace lake {
             d_stream << "))";
         }
         
+        virtual void visit(ConstExpressionAST<int8_t> const *node)
+        {
+            d_stream << "(int8)" << node->value();
+        }
+        
+        virtual void visit(ConstExpressionAST<int64_t> const *node)
+        {
+            d_stream << "(int64)" << node->value();
+        }
+
+        virtual void visit(ConstExpressionAST<uint64_t> const *node)
+        {
+            d_stream << "(uint64)" << node->value();
+        }
+        
         virtual void visit(ConstExpressionAST<double> const *node)
         {
             d_stream << "(double)" << node->value();
@@ -117,11 +149,6 @@ namespace lake {
         virtual void visit(ConstExpressionAST<std::string> const *node)
         {
             d_stream << "(string)" << node->value();
-        }
-        
-        virtual void visit(ConstExpressionAST<int> const *node)
-        {
-            d_stream << "(int)" << node->value();
         }
         
         virtual void visit(VarExpressionAST const *node)

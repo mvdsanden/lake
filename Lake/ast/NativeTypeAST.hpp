@@ -30,6 +30,11 @@ namespace lake {
         {
         }
         
+        virtual size_t typeId() const
+        {
+            return ID;
+        }
+        
     private:
     };
     

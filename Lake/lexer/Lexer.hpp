@@ -36,7 +36,9 @@ namespace lake {
             TOK_TYPE_FLOAT,
             TOK_TYPE_DOUBLE,
             TOK_TYPE_STRING,
-            
+
+            TOK_CONST_INT,
+            TOK_CONST_UINT,
             TOK_CONST_DOUBLE,
             TOK_CONST_STRING,
             TOK_CONST_LITERAL,
@@ -52,6 +54,10 @@ namespace lake {
         void next();
         
         int token() const;
+        
+        int64_t intValue() const;
+        
+        uint64_t uintValue() const;
         
         double doubleValue() const;
         

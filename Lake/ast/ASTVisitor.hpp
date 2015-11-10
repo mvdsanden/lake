@@ -39,7 +39,11 @@ namespace lake {
         
         virtual void visit(ConstValueAST<std::string> const *node) {};
         
-        virtual void visit(ConstValueAST<int> const *node) {};
+        virtual void visit(ConstValueAST<int8_t> const *node) {};
+        
+        virtual void visit(ConstValueAST<int64_t> const *node) {};
+        
+        virtual void visit(ConstValueAST<uint64_t> const *node) {};
         
         virtual void visit(FunctionPrototypeAST const *node) {};
         
@@ -49,11 +53,15 @@ namespace lake {
         
         virtual void visit(BinOpExpressionAST const *node) {};
         
+        virtual void visit(ConstExpressionAST<int8_t> const *node) {};
+        
+        virtual void visit(ConstExpressionAST<int64_t> const *node) {};
+        
+        virtual void visit(ConstExpressionAST<uint64_t> const *node) {};
+        
         virtual void visit(ConstExpressionAST<double> const *node) {};
         
         virtual void visit(ConstExpressionAST<std::string> const *node) {};
-        
-        virtual void visit(ConstExpressionAST<int> const *node) {};
 
         virtual void visit(VarExpressionAST const *node) {};
         

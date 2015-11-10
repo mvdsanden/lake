@@ -10,7 +10,7 @@
 #define ConstDefAST_hpp
 
 #include "ConstAST.hpp"
-#include "IdentifierAST.hpp"
+#include "TypeAndNameAST.hpp"
 
 namespace lake {
     
@@ -22,17 +22,17 @@ namespace lake {
         LAKE_VISITOR_ACCEPT(ASTVisitor);
         
         ConstDefAST(size_t lineNumber,
-                    std::unique_ptr<IdentifierAST>  &&name,
+                    std::unique_ptr<TypeAndNameAST>  &&typeAndName,
                     std::unique_ptr<ConstAST> &&value);
         
         virtual ~ConstDefAST();
 
-        std::unique_ptr<IdentifierAST> const &name() const;
+        std::unique_ptr<TypeAndNameAST> const &typeAndName() const;
         
         std::unique_ptr<ConstAST> const &value() const;
         
     private:
-        std::unique_ptr<IdentifierAST> d_name;
+        std::unique_ptr<TypeAndNameAST> d_typeAndName;
         std::unique_ptr<ConstAST> d_value;
     };
     

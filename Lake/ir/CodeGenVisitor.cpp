@@ -80,6 +80,8 @@ namespace lake {
         
         std::shared_ptr<llvm::Module> d_module;
         
+        llvm::IRBuilder<> d_builder;
+        
         Scope d_scope;
         
         static void error(BaseAST const *node, std::string const &msg)
@@ -90,7 +92,7 @@ namespace lake {
     public:
         
         CodeGenVisitorImpl(std::shared_ptr<llvm::Module> const &module)
-        : d_module(module)
+        : d_module(module), d_builder(llvm::getGlobalContext())
         {
         }
         
@@ -121,13 +123,90 @@ namespace lake {
                 d_value = llvm::ConstantDataArray::getString(llvm::getGlobalContext(), node->value());
             }
             
-            void visit(ConstValueAST<int> const *node)
+            void visit(ConstValueAST<int8_t> const *node)
+            {
+                d_value = llvm::ConstantInt::get(llvm::getGlobalContext(), llvm::APInt(8, node->value(), true));
+            }
+
+            void visit(ConstValueAST<int64_t> const *node)
             {
                 d_value = llvm::ConstantInt::get(llvm::getGlobalContext(), llvm::APInt(64, node->value(), true));
+            }
+
+            void visit(ConstValueAST<uint64_t> const *node)
+            {
+                d_value = llvm::ConstantInt::get(llvm::getGlobalContext(), llvm::APInt(64, node->value(), false));
             }
             
         };
         
+        class TypeVisitor
+        : public ASTVisitor
+        {
+            llvm::Type *d_type;
+        public:
+            
+            virtual void visit(TypeInt8AST const *node)
+            {
+                d_type = llvm::Type::getInt8Ty(llvm::getGlobalContext());
+            }
+            
+            virtual void visit(TypeInt16AST const *node)
+            {
+                d_type = llvm::Type::getInt8Ty(llvm::getGlobalContext());
+            }
+            
+            virtual void visit(TypeInt32AST const *node)
+            {
+                d_type = llvm::Type::getInt32Ty(llvm::getGlobalContext());
+            }
+            
+            virtual void visit(TypeInt64AST const *node)
+            {
+                d_type = llvm::Type::getInt64Ty(llvm::getGlobalContext());
+            }
+            
+            virtual void visit(TypeUInt8AST const *node)
+            {
+                d_type = llvm::Type::getInt8Ty(llvm::getGlobalContext());
+            }
+            
+            virtual void visit(TypeUInt16AST const *node)
+            {
+                d_type = llvm::Type::getInt16Ty(llvm::getGlobalContext());
+            }
+            
+            virtual void visit(TypeUInt32AST const *node)
+            {
+                d_type = llvm::Type::getInt32Ty(llvm::getGlobalContext());
+            }
+            
+            virtual void visit(TypeUInt64AST const *node)
+            {
+                d_type = llvm::Type::getInt64Ty(llvm::getGlobalContext());
+            }
+            
+            virtual void visit(TypeFloatAST const *node)
+            {
+                d_type = llvm::Type::getFloatTy(llvm::getGlobalContext());
+            }
+            
+            virtual void visit(TypeDoubleAST const *node)
+            {
+                d_type = llvm::Type::getDoubleTy(llvm::getGlobalContext());
+            }
+            
+            virtual void visit(TypeStringAST const *node)
+            {
+                d_type = llvm::Type::getInt8PtrTy(llvm::getGlobalContext());
+            }
+            
+            llvm::Type *type() const
+            {
+                return d_type;
+            }
+            
+        };
         
         void visit(IdentifierAST const *node)
         {
@@ -136,9 +215,19 @@ namespace lake {
         
         void visit(ConstDefAST const *node)
         {
-            ValueVisitor vis;
-            node->value()->accept(&vis);
-            d_scope.insertNamedValue(node->name()->name(), vis.value());
+            ValueVisitor valueVis;
+            TypeVisitor typeVis;
+            
+            node->typeAndName()->type()->accept(&typeVis);
+            node->value()->accept(&valueVis);
+            
+            llvm::Value *value = d_builder.CreateAlloca(typeVis.type());
+            
+            // For now a mutated variable.
+            // TODO: make const definition.
+            d_builder.CreateStore(value, valueVis.value());
+            
+            d_scope.insertNamedValue(node->typeAndName()->name()->name(), value);
         }
         
         class ExpressionVisitor
@@ -228,7 +317,7 @@ namespace lake {
         class BlockVisitor
         : public ASTVisitor
         {
-            llvm::IRBuilder<> d_builder;
+            llvm::IRBuilder<> &d_builder;
             
             llvm::Function *d_function;
             
@@ -236,8 +325,8 @@ namespace lake {
             
         public:
             
-            BlockVisitor(Scope &parentScope, llvm::Function *function)
-            : d_scope(parentScope), d_builder(llvm::getGlobalContext()), d_function(function)
+            BlockVisitor(Scope &parentScope, llvm::IRBuilder<> &builder, llvm::Function *function)
+            : d_scope(parentScope), d_builder(builder), d_function(function)
             {
                 llvm::BasicBlock *BB = llvm::BasicBlock::Create(llvm::getGlobalContext(), "entry", function);
                 d_builder.SetInsertPoint(BB);
@@ -259,6 +348,25 @@ namespace lake {
                 node->accept(&vis);
             }
             
+            void visit(ConstExpressionAST<int8_t> const *node)
+            {
+                ExpressionVisitor vis(d_scope, d_builder);
+                node->accept(&vis);
+            }
+
+            void visit(ConstExpressionAST<int64_t> const *node)
+            {
+                ExpressionVisitor vis(d_scope, d_builder);
+                node->accept(&vis);
+            }
+
+            void visit(ConstExpressionAST<uint64_t> const *node)
+            {
+                ExpressionVisitor vis(d_scope, d_builder);
+                node->accept(&vis);
+            }
+
+            
             void visit(ConstExpressionAST<double> const *node)
             {
                 ExpressionVisitor vis(d_scope, d_builder);
@@ -266,12 +374,6 @@ namespace lake {
             }
             
             void visit(ConstExpressionAST<std::string> const *node)
-            {
-                ExpressionVisitor vis(d_scope, d_builder);
-                node->accept(&vis);
-            }
-            
-            void visit(ConstExpressionAST<int> const *node)
             {
                 ExpressionVisitor vis(d_scope, d_builder);
                 node->accept(&vis);
@@ -298,12 +400,14 @@ namespace lake {
             
             Scope &d_scope;
             
+            llvm::IRBuilder<> &d_builder;
+            
             llvm::Function *d_function;
             
         public:
             
-            FunctionVisitor(Scope &scope)
-            : d_scope(scope) {}
+            FunctionVisitor(Scope &scope, llvm::IRBuilder<> &builder)
+            : d_scope(scope), d_builder(builder) {}
             
             void visit(FunctionPrototypeAST const *node)
             {
@@ -312,7 +416,7 @@ namespace lake {
             
             void visit(FunctionBlockAST const *node)
             {
-                BlockVisitor vis(d_scope, d_function);
+                BlockVisitor vis(d_scope, d_builder, d_function);
                 
                 for (auto &i : node->expressions()) {
                     i->accept(&vis);
@@ -323,7 +427,7 @@ namespace lake {
         
         void visit(FunctionDefAST const *node)
         {
-            FunctionVisitor vis(d_scope);
+            FunctionVisitor vis(d_scope, d_builder);
             node->prototype()->accept(&vis);
             node->block()->accept(&vis);
         }

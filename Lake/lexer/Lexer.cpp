@@ -32,7 +32,7 @@ d_lineNumber(1)
     d_keywords["var"] = TOK_VAR;
     d_keywords["const"] = TOK_CONST;
     d_keywords["func"] = TOK_FUNC;
-    d_keywords["return"] = TOK_FUNC;
+    d_keywords["return"] = TOK_RETURN;
     
     // Native types.
     d_keywords["int8_t"] = TOK_TYPE_INT_8;
@@ -98,6 +98,16 @@ int Lexer::token() const
     return d_token;
 }
 
+int64_t Lexer::intValue() const
+{
+    return strtoll(d_value.c_str(), nullptr, 10);
+}
+
+uint64_t Lexer::uintValue() const
+{
+    return strtoull(d_value.c_str(), nullptr, 10);
+}
+
 double Lexer::doubleValue() const
 {
     return std::atof(d_value.c_str());
@@ -149,7 +159,7 @@ void Lexer::lexIdentifier()
 
 void Lexer::lexNumber()
 {
-    d_token = TOK_CONST_DOUBLE;
+    d_token = TOK_CONST_INT;
     
     d_value.clear();
     while (isnumber(d_ch)) {
@@ -158,12 +168,21 @@ void Lexer::lexNumber()
     }
 
     if (d_ch == '.') {
+        d_token = TOK_CONST_DOUBLE;
         d_value += '.';
         getch();
         while (isnumber(d_ch)) {
             d_value += d_ch;
             getch();
         }
+    }
+    
+    if (d_ch == 'f') {
+        d_token = TOK_CONST_DOUBLE;
+        getch();
+    } else if (d_ch == 'u') {
+        d_token = TOK_CONST_UINT;
+        getch();
     }
 }
 

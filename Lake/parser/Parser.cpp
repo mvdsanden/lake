@@ -76,25 +76,28 @@ namespace lake {
             
             lexer.next();
             
-            if (lexer.token() != Lexer::TOK_IDENTIFIER) {
-                return error(lexer, "expected identifier");
-            }
+            std::unique_ptr<TypeAndNameAST> typeAndName = parseTypeAndName(lexer);
             
-            std::unique_ptr<IdentifierAST> name(new IdentifierAST(lexer.lineNumber(), lexer.identifierValue()));
-            
-            lexer.next();
             if (lexer.token() != '=') {
                 return error(lexer, "expected '='");
             }
             
             lexer.next();
             switch (lexer.token()) {
+                case Lexer::TOK_CONST_INT:
+                    value = std::unique_ptr<ConstAST>(new ConstValueAST<int64_t>(lexer.lineNumber(), lexer.intValue()));
+                    break;
+
+                case Lexer::TOK_CONST_UINT:
+                    value = std::unique_ptr<ConstAST>(new ConstValueAST<uint64_t>(lexer.lineNumber(), lexer.uintValue()));
+                    break;
+                    
                 case Lexer::TOK_CONST_DOUBLE:
                     value = std::unique_ptr<ConstAST>(new ConstValueAST<double>(lexer.lineNumber(), lexer.doubleValue()));
                     break;
                     
                 case Lexer::TOK_CONST_LITERAL:
-                    value = std::unique_ptr<ConstAST>(new ConstValueAST<int>(lexer.lineNumber(), lexer.literalValue()));
+                    value = std::unique_ptr<ConstAST>(new ConstValueAST<int8_t>(lexer.lineNumber(), lexer.literalValue()));
                     break;
                     
                 case Lexer::TOK_CONST_STRING:
@@ -111,7 +114,7 @@ namespace lake {
                 error(lexer, "expected ';'");
             }
             
-            return std::unique_ptr<BaseAST>(new ConstDefAST(lexer.lineNumber(), std::move(name), std::move(value)));
+            return std::unique_ptr<BaseAST>(new ConstDefAST(lexer.lineNumber(), std::move(typeAndName), std::move(value)));
         }
 
         std::unique_ptr<BaseAST> parseFunc(Lexer &lexer)
@@ -182,22 +185,28 @@ namespace lake {
             lexer.next();
             
             std::vector<std::unique_ptr<TypeAndNameAST>> args;
-            while (true) {
+            
+            if (lexer.token() != ')') {
                 
-                auto argTypeName = parseTypeAndName(lexer);
-                
-                args.push_back(std::move(argTypeName));
-                
-                if (lexer.token() == ')') {
-                    lexer.next();
-                    break;
-                } else if (lexer.token() == ',') {
-                    lexer.next();
-                } else {
-                    error(lexer, "expected ',' or ')'");
-                    break;
+                while (true) {
+                    
+                    auto argTypeName = parseTypeAndName(lexer);
+                    
+                    args.push_back(std::move(argTypeName));
+                    
+                    if (lexer.token() == ')') {
+                        lexer.next();
+                        break;
+                    } else if (lexer.token() == ',') {
+                        lexer.next();
+                    } else {
+                        error(lexer, "expected ',' or ')'");
+                        break;
+                    }
+                    
                 }
-                
+            } else {
+                lexer.next();
             }
             
             return std::unique_ptr<FunctionPrototypeAST>(new FunctionPrototypeAST(lexer.lineNumber(), std::move(typeName), std::move(args)));
@@ -230,6 +239,12 @@ namespace lake {
         std::unique_ptr<ExpressionAST> parsePrimaryExpression(Lexer &lexer)
         {
             switch (lexer.token()) {
+                case Lexer::TOK_CONST_INT:
+                    return parseIntExpression(lexer);
+
+                case Lexer::TOK_CONST_UINT:
+                    return parseUIntExpression(lexer);
+
                 case Lexer::TOK_CONST_DOUBLE:
                     return parseDoubleExpression(lexer);
                     
@@ -247,6 +262,21 @@ namespace lake {
                     return nullptr;
             }
         }
+
+        std::unique_ptr<ExpressionAST> parseIntExpression(Lexer &lexer)
+        {
+            auto expr = std::unique_ptr<ExpressionAST>(new ConstExpressionAST<int64_t>(lexer.lineNumber(), lexer.intValue()));
+            lexer.next();
+            return std::move(expr);
+        }
+
+        std::unique_ptr<ExpressionAST> parseUIntExpression(Lexer &lexer)
+        {
+            auto expr = std::unique_ptr<ExpressionAST>(new ConstExpressionAST<uint64_t>(lexer.lineNumber(), lexer.uintValue()));
+            lexer.next();
+            return std::move(expr);
+        }
+
         
         std::unique_ptr<ExpressionAST> parseDoubleExpression(Lexer &lexer)
         {
@@ -257,7 +287,7 @@ namespace lake {
 
         std::unique_ptr<ExpressionAST> parseLiteralExpression(Lexer &lexer)
         {
-            auto expr = std::unique_ptr<ExpressionAST>(new ConstExpressionAST<int>(lexer.lineNumber(), lexer.literalValue()));
+            auto expr = std::unique_ptr<ExpressionAST>(new ConstExpressionAST<int8_t>(lexer.lineNumber(), lexer.literalValue()));
             lexer.next();
             return std::move(expr);
         }
