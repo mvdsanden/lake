@@ -23,7 +23,7 @@
 		C16D253D1BE9253F00F20848 /* CodeGenVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D253B1BE9253F00F20848 /* CodeGenVisitor.cpp */; };
 		C16D33241BF243A500F20848 /* TypeAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D33221BF243A500F20848 /* TypeAST.cpp */; };
 		C16D33271BF24BAE00F20848 /* TypeAndNameAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D33251BF24BAE00F20848 /* TypeAndNameAST.cpp */; };
-		C16D332A1BF24F2C00F20848 /* NativeTypeAST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D33281BF24F2C00F20848 /* NativeTypeAST.cpp */; };
+		C16D332F1BF39AF200F20848 /* Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C16D332D1BF39AF200F20848 /* Type.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -71,8 +71,8 @@
 		C16D33231BF243A500F20848 /* TypeAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TypeAST.hpp; path = ast/TypeAST.hpp; sourceTree = "<group>"; };
 		C16D33251BF24BAE00F20848 /* TypeAndNameAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TypeAndNameAST.cpp; path = ast/TypeAndNameAST.cpp; sourceTree = "<group>"; };
 		C16D33261BF24BAE00F20848 /* TypeAndNameAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TypeAndNameAST.hpp; path = ast/TypeAndNameAST.hpp; sourceTree = "<group>"; };
-		C16D33281BF24F2C00F20848 /* NativeTypeAST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NativeTypeAST.cpp; path = ast/NativeTypeAST.cpp; sourceTree = "<group>"; };
-		C16D33291BF24F2C00F20848 /* NativeTypeAST.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NativeTypeAST.hpp; path = ast/NativeTypeAST.hpp; sourceTree = "<group>"; };
+		C16D332D1BF39AF200F20848 /* Type.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Type.cpp; path = vm/Type.cpp; sourceTree = "<group>"; };
+		C16D332E1BF39AF200F20848 /* Type.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Type.hpp; path = vm/Type.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +105,7 @@
 		C16D25071BE8089500F20848 /* Lake */ = {
 			isa = PBXGroup;
 			children = (
+				C16D332C1BF39AD900F20848 /* vm */,
 				C16D253A1BE924C900F20848 /* ir */,
 				C16D251A1BE827CC00F20848 /* util */,
 				C16D25131BE8262800F20848 /* ast */,
@@ -151,8 +152,6 @@
 				C16D33231BF243A500F20848 /* TypeAST.hpp */,
 				C16D33251BF24BAE00F20848 /* TypeAndNameAST.cpp */,
 				C16D33261BF24BAE00F20848 /* TypeAndNameAST.hpp */,
-				C16D33281BF24F2C00F20848 /* NativeTypeAST.cpp */,
-				C16D33291BF24F2C00F20848 /* NativeTypeAST.hpp */,
 			);
 			name = ast;
 			sourceTree = "<group>";
@@ -180,6 +179,15 @@
 				C16D253C1BE9253F00F20848 /* CodeGenVisitor.hpp */,
 			);
 			name = ir;
+			sourceTree = "<group>";
+		};
+		C16D332C1BF39AD900F20848 /* vm */ = {
+			isa = PBXGroup;
+			children = (
+				C16D332D1BF39AF200F20848 /* Type.cpp */,
+				C16D332E1BF39AF200F20848 /* Type.hpp */,
+			);
+			name = vm;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -247,10 +255,10 @@
 				C16D25261BE82A6300F20848 /* IdentifierAST.cpp in Sources */,
 				C16D25191BE826EB00F20848 /* ConstAST.cpp in Sources */,
 				C16D25361BE90D6E00F20848 /* FunctionBlockAST.cpp in Sources */,
+				C16D332F1BF39AF200F20848 /* Type.cpp in Sources */,
 				C16D25121BE808E200F20848 /* Lexer.cpp in Sources */,
 				C16D25231BE8297900F20848 /* FunctionPrototypeAST.cpp in Sources */,
 				C16D253D1BE9253F00F20848 /* CodeGenVisitor.cpp in Sources */,
-				C16D332A1BF24F2C00F20848 /* NativeTypeAST.cpp in Sources */,
 				C16D25161BE8264600F20848 /* BaseAST.cpp in Sources */,
 				C16D25091BE8089500F20848 /* main.cpp in Sources */,
 				C16D33241BF243A500F20848 /* TypeAST.cpp in Sources */,
@@ -308,10 +316,8 @@
 					"-D__STDC_CONSTANT_MACROS",
 					"-D__STDC_FORMAT_MACROS",
 					"-D__STDC_LIMIT_MACROS",
-					"-O3",
 					"-std=c++11",
 					"-fvisibility-inlines-hidden",
-					"-fno-exceptions",
 					"-fno-rtti",
 					"-fno-common",
 					"-Wcast-qual",
@@ -480,10 +486,8 @@
 					"-D__STDC_CONSTANT_MACROS",
 					"-D__STDC_FORMAT_MACROS",
 					"-D__STDC_LIMIT_MACROS",
-					"-O3",
 					"-std=c++11",
 					"-fvisibility-inlines-hidden",
-					"-fno-exceptions",
 					"-fno-rtti",
 					"-fno-common",
 					"-Wcast-qual",

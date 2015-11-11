@@ -11,7 +11,7 @@
 
 #include <string>
 
-#include "TypeAST.hpp"
+//#include "TypeAST.hpp"
 
 #define LAKE_VISITOR_ACCEPT(V) virtual void accept(V *visitor) const { visitor->visit(this); }
 
@@ -19,10 +19,13 @@ namespace lake {
     
     template <class T> class ConstValueAST;
     template <class T> class ConstExpressionAST;
-    template <class T, size_t TypeID> class NativeTypeAST;
+    template <class T> class NativeTypeAST;
+    class BaseAST;
     class IdentifierAST;
     class FunctionPrototypeAST;
+    class ConstAST;
     class ConstDefAST;
+    class ExpressionAST;
     class BinOpExpressionAST;
     class VarExpressionAST;
     class CallExpressionAST;
@@ -30,12 +33,15 @@ namespace lake {
     class FunctionBlockAST;
     class ReturnExpressionAST;
     class TypeAndNameAST;
+    class TypeAST;
     
     class ASTVisitor
     {
     public:
         
         virtual void visitNotHandled(BaseAST const *node, std::string const &type);
+        
+        virtual void visit(ConstAST const *node);
         
         virtual void visit(ConstValueAST<double> const *node);
         
@@ -54,6 +60,8 @@ namespace lake {
         virtual void visit(ConstDefAST const *node);
         
         virtual void visit(BinOpExpressionAST const *node);
+        
+        virtual void visit(ExpressionAST const *node);
         
         virtual void visit(ConstExpressionAST<int8_t> const *node);
         
@@ -77,27 +85,29 @@ namespace lake {
         
         virtual void visit(TypeAndNameAST const *node);
         
-        virtual void visit(TypeInt8AST const *node);
+        virtual void visit(TypeAST const *node);
         
-        virtual void visit(TypeInt16AST const *node);
+        virtual void visit(NativeTypeAST<int8_t> const *node);
         
-        virtual void visit(TypeInt32AST const *node);
+        virtual void visit(NativeTypeAST<int16_t> const *node);
         
-        virtual void visit(TypeInt64AST const *node);
+        virtual void visit(NativeTypeAST<int32_t> const *node);
+        
+        virtual void visit(NativeTypeAST<int64_t> const *node);
 
-        virtual void visit(TypeUInt8AST const *node);
+        virtual void visit(NativeTypeAST<uint8_t> const *node);
         
-        virtual void visit(TypeUInt16AST const *node);
+        virtual void visit(NativeTypeAST<uint16_t> const *node);
         
-        virtual void visit(TypeUInt32AST const *node);
+        virtual void visit(NativeTypeAST<uint32_t> const *node);
         
-        virtual void visit(TypeUInt64AST const *node);
+        virtual void visit(NativeTypeAST<uint64_t> const *node);
         
-        virtual void visit(TypeFloatAST const *node);
+        virtual void visit(NativeTypeAST<float> const *node);
         
-        virtual void visit(TypeDoubleAST const *node);
+        virtual void visit(NativeTypeAST<double> const *node);
 
-        virtual void visit(TypeStringAST const *node);
+        virtual void visit(NativeTypeAST<std::string> const *node);
         
     };
     

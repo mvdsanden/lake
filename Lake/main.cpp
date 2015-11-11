@@ -31,10 +31,12 @@ int main(int argc, const char * argv[]) {
         ll.next();
     }
      */
-    auto module = std::make_shared<llvm::Module>("my cool jit", llvm::getGlobalContext());
+    auto module = std::make_shared<llvm::Module>("lake++ jit compiler", llvm::getGlobalContext());
 
     auto logVisitor = lake::ASTPrintVisitor::create(std::cout);
     auto codeGenVisitor = lake::CodeGenVisitor::create(module);
+    
+    
     
     while (true) {
         

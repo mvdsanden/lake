@@ -206,57 +206,57 @@ namespace lake {
             node->name()->accept(this);
         }
         
-        virtual void visit(TypeInt8AST const *node)
+        virtual void visit(NativeTypeAST<int8_t> const *node)
         {
             d_stream << "(INT8)";
         }
         
-        virtual void visit(TypeInt16AST const *node)
+        virtual void visit(NativeTypeAST<int16_t> const *node)
         {
             d_stream << "(INT16)";
         }
         
-        virtual void visit(TypeInt32AST const *node)
+        virtual void visit(NativeTypeAST<int32_t> const *node)
         {
             d_stream << "(INT32)";
         }
         
-        virtual void visit(TypeInt64AST const *node)
+        virtual void visit(NativeTypeAST<int64_t> const *node)
         {
             d_stream << "(INT64)";
         }
         
-        virtual void visit(TypeUInt8AST const *node)
+        virtual void visit(NativeTypeAST<uint8_t> const *node)
         {
             d_stream << "(UINT8)";
         }
         
-        virtual void visit(TypeUInt16AST const *node)
+        virtual void visit(NativeTypeAST<uint16_t> const *node)
         {
             d_stream << "(UINT16)";
         }
         
-        virtual void visit(TypeUInt32AST const *node)
+        virtual void visit(NativeTypeAST<uint32_t> const *node)
         {
             d_stream << "(UINT32)";
         }
         
-        virtual void visit(TypeUInt64AST const *node)
+        virtual void visit(NativeTypeAST<uint64_t> const *node)
         {
             d_stream << "(UINT64)";
         }
         
-        virtual void visit(TypeFloatAST const *node)
+        virtual void visit(NativeTypeAST<float> const *node)
         {
             d_stream << "(FLOAT)";
         }
         
-        virtual void visit(TypeDoubleAST const *node)
+        virtual void visit(NativeTypeAST<double> const *node)
         {
             d_stream << "(DOUBLE)";
         }
         
-        virtual void visit(TypeStringAST const *node)
+        virtual void visit(NativeTypeAST<std::string> const *node)
         {
             d_stream << "(STRING)";
         }

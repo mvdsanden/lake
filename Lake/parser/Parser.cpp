@@ -17,7 +17,6 @@
 #include "FunctionBlockAST.hpp"
 #include "FunctionDefAST.hpp"
 #include "TypeAST.hpp"
-#include "NativeTypeAST.hpp"
 #include "TypeAndNameAST.hpp"
 
 #include <iostream>
@@ -141,17 +140,17 @@ namespace lake {
             std::unique_ptr<TypeAST> type;
             
             switch (lexer.token()) {
-                case Lexer::TOK_TYPE_INT_8: type = std::unique_ptr<TypeAST>(new TypeInt8AST(lexer.lineNumber())); break;
-                case Lexer::TOK_TYPE_INT_16: type = std::unique_ptr<TypeAST>(new TypeInt16AST(lexer.lineNumber())); break;
-                case Lexer::TOK_TYPE_INT_32: type = std::unique_ptr<TypeAST>(new TypeInt32AST(lexer.lineNumber())); break;
-                case Lexer::TOK_TYPE_INT_64: type = std::unique_ptr<TypeAST>(new TypeInt64AST(lexer.lineNumber())); break;
-                case Lexer::TOK_TYPE_UINT_8: type = std::unique_ptr<TypeAST>(new TypeUInt8AST(lexer.lineNumber())); break;
-                case Lexer::TOK_TYPE_UINT_16: type = std::unique_ptr<TypeAST>(new TypeUInt16AST(lexer.lineNumber())); break;
-                case Lexer::TOK_TYPE_UINT_32: type = std::unique_ptr<TypeAST>(new TypeUInt32AST(lexer.lineNumber())); break;
-                case Lexer::TOK_TYPE_UINT_64: type = std::unique_ptr<TypeAST>(new TypeUInt64AST(lexer.lineNumber())); break;
-                case Lexer::TOK_TYPE_FLOAT: type = std::unique_ptr<TypeAST>(new TypeFloatAST(lexer.lineNumber())); break;
-                case Lexer::TOK_TYPE_DOUBLE: type = std::unique_ptr<TypeAST>(new TypeDoubleAST(lexer.lineNumber())); break;
-                case Lexer::TOK_TYPE_STRING: type = std::unique_ptr<TypeAST>(new TypeStringAST(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_INT_8: type = std::unique_ptr<TypeAST>(new NativeTypeAST<int8_t>(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_INT_16: type = std::unique_ptr<TypeAST>(new NativeTypeAST<int16_t>(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_INT_32: type = std::unique_ptr<TypeAST>(new NativeTypeAST<int32_t>(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_INT_64: type = std::unique_ptr<TypeAST>(new NativeTypeAST<int64_t>(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_UINT_8: type = std::unique_ptr<TypeAST>(new NativeTypeAST<uint8_t>(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_UINT_16: type = std::unique_ptr<TypeAST>(new NativeTypeAST<uint16_t>(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_UINT_32: type = std::unique_ptr<TypeAST>(new NativeTypeAST<uint32_t>(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_UINT_64: type = std::unique_ptr<TypeAST>(new NativeTypeAST<uint64_t>(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_FLOAT: type = std::unique_ptr<TypeAST>(new NativeTypeAST<float>(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_DOUBLE: type = std::unique_ptr<TypeAST>(new NativeTypeAST<double>(lexer.lineNumber())); break;
+                case Lexer::TOK_TYPE_STRING: type = std::unique_ptr<TypeAST>(new NativeTypeAST<std::string>(lexer.lineNumber())); break;
 
                 default:
                     error(lexer, "expected type specifier");

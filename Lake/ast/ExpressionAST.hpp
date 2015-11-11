@@ -12,11 +12,13 @@
 #include "BaseAST.hpp"
 #include "IdentifierAST.hpp"
 #include "ASTVisitor.hpp"
+#include "Type.hpp"
 
 #include <vector>
 
 namespace lake {
     
+
     class ExpressionAST
     : public BaseAST
     {
@@ -26,6 +28,8 @@ namespace lake {
         : BaseAST(lineNumber)
         {
         }
+        
+        virtual TypeInfo const *typeInfo() const = 0;
         
     };
     
@@ -59,6 +63,11 @@ namespace lake {
             return d_rhs;
         }
         
+        virtual TypeInfo const *typeInfo() const
+        {
+            return (d_lhs?d_lhs->typeInfo():nullptr);
+        }
+        
     private:
         
         int d_op;
@@ -69,22 +78,40 @@ namespace lake {
         
     };
     
+    class ConstExpressionBaseAST
+    : public ExpressionAST
+    {
+    public:
+        
+        ConstExpressionBaseAST(size_t lineNumber)
+        : ExpressionAST(lineNumber)
+        {
+        }
+        
+    };
+    
+    
     template <class T>
     class ConstExpressionAST
-    : public ExpressionAST
+    : public ConstExpressionBaseAST
     {
     public:
         
         LAKE_VISITOR_ACCEPT(ASTVisitor);
         
         ConstExpressionAST(size_t lineNumber, T const &value)
-        : ExpressionAST(lineNumber), d_value(value)
+        : ConstExpressionBaseAST(lineNumber), d_value(value)
         {
         }
         
         T const &value() const
         {
             return d_value;
+        }
+        
+        virtual TypeInfo const *typeInfo() const
+        {
+            return TypeInfo::getTypeInfo<T>();
         }
         
     private:
@@ -108,6 +135,11 @@ namespace lake {
         std::unique_ptr<IdentifierAST> const &name() const
         {
             return d_name;
+        }
+        
+        virtual TypeInfo const *typeInfo() const
+        {
+            return nullptr;
         }
         
     private:
@@ -140,6 +172,11 @@ namespace lake {
             return d_args;
         }
         
+        virtual TypeInfo const *typeInfo() const
+        {
+            return nullptr;
+        }
+        
     private:
         
         std::unique_ptr<IdentifierAST> d_name;
@@ -164,6 +201,11 @@ namespace lake {
         std::unique_ptr<ExpressionAST> const &rhs() const
         {
             return d_rhs;
+        }
+        
+        virtual TypeInfo const *typeInfo() const
+        {
+            return (d_rhs?d_rhs->typeInfo():nullptr);
         }
         
     private:
